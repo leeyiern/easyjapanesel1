@@ -1,1124 +1,1497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TabiNihongo (旅日本語) - Essential Japanese for Travelers</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sakura: {
-                            50: '#fdf2f8',
-                            100: '#fce7f3',
-                            200: '#fbcfe8',
-                            400: '#f472b6',
-                            500: '#ec4899',
-                            600: '#db2777',
-                            800: '#9d174d'
-                        },
-                        indigo: {
-                            900: '#1e1b4b',
-                            950: '#0f172a'
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'Noto Sans JP', 'sans-serif'],
-                        jp: ['Noto Sans JP', 'sans-serif']
-                    }
-                }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TabiNihongo (旅日本語) - Essential Japanese for Travelers</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Alpine.js Persist Plugin CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sakura: {
+              50: '#fff5f7',
+              100: '#fdf7f9',
+              200: '#fbcfe8',
+              300: '#f472b6',
+              400: '#ff6b8b',
+              500: '#ec4899',
+              600: '#db2777',
+              900: '#2a0845',
             }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans JP"', 'sans-serif'],
+            japanese: ['"Noto Sans JP"', 'sans-serif'],
+          }
         }
-    </script>
+      }
+    }
+  </script>
 
-    <style>
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #111827 100%);
-            min-height: 100vh;
-            color: #f3f4f6;
-        }
+  <style>
+    /* Background & Texture Styling */
+    body {
+      background-color: #fdf7f9;
+      background-image: radial-gradient(#f472b6 0.75px, transparent 0.75px), radial-gradient(#f472b6 0.75px, #fdf7f9 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+      min-height: 100vh;
+      color: #1f2937;
+    }
 
-        .glass-card {
-            background: rgba(30, 27, 75, 0.55);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+    /* Traditional Japanese Seigaiha Pattern SVG Background overlay */
+    .seigaiha-header {
+      background: linear-gradient(135deg, #2a0845 0%, #ff6b8b 100%);
+      position: relative;
+    }
+    .seigaiha-header::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      opacity: 0.12;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30' viewBox='0 0 60 30'%3E%3Cpath d='M30 30c0-16.57-13.43-30-30-30v30h30zm0 0c0-16.57 13.43-30 30-30v30H30zM0 15c8.28 0 15 6.72 15 15H0V15zm60 0c-8.28 0-15 6.72-15 15h15V15zM30 15c-8.28 0-15-6.72-15-15h30c0 8.28-6.72 15-15 15z' fill='%23ffffff'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
 
-        .glass-card-light {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
+    /* Floating Sakura Petals Animation */
+    .sakura-petal {
+      position: fixed;
+      top: -10%;
+      user-select: none;
+      pointer-events: none;
+      z-index: 0;
+      animation-name: fall, shake;
+      animation-duration: 10s, 3s;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+      animation-play-state: running, running;
+      opacity: 0.6;
+    }
 
-        .tab-active {
-            background: linear-gradient(135deg, #db2777 0%, #be185d 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.4);
-        }
+    @keyframes fall {
+      0% { top: -10%; }
+      100% { top: 100%; }
+    }
 
-        .subtab-active {
-            border-bottom: 3px solid #ec4899;
-            color: #f472b6;
-            font-weight: 600;
-        }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      50% { transform: translateX(80px) rotate(180deg); }
+    }
 
-        /* Flashcard 3D Flip Effects */
-        .perspective-1000 {
-            perspective: 1000px;
-        }
+    /* 3D Card Flip CSS */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
 
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flashcard-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .flashcard-front, .flashcard-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem;
-        }
-
-        .flashcard-back {
-            transform: rotateY(180deg);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(236, 72, 153, 0.4);
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(236, 72, 153, 0.7);
-        }
-
-        @keyframes pulse-subtle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.85; transform: scale(1.02); }
-        }
-        .pulse-subtle {
-            animation: pulse-subtle 3s infinite ease-in-out;
-        }
-    </style>
+    /* Hide scrollbars for crisp UI */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="p-2 sm:p-4 md:p-6 text-gray-100 flex flex-col min-h-screen">
+<body x-data="appData()" x-init="initApp()" class="font-sans antialiased text-slate-800 relative pb-16">
 
-    <header class="max-w-6xl mx-auto w-full mb-6">
-        <div class="glass-card rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-sakura-500/20">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-sakura-600 to-sakura-400 flex items-center justify-center text-2xl font-bold shadow-lg shadow-sakura-600/30">
-                    旅
-                </div>
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-sakura-200 to-sakura-400 bg-clip-text text-transparent">
-                            TabiNihongo
-                        </h1>
-                        <span class="text-xs px-2.5 py-0.5 rounded-full bg-sakura-500/20 text-sakura-300 border border-sakura-500/30 font-medium">旅日本語 v2.0</span>
-                    </div>
-                    <p class="text-xs sm:text-sm text-gray-300 mt-0.5">Essential Japanese for Travelers • Structured by Real Scenarios</p>
-                </div>
-            </div>
+  <!-- Ambient Floating Sakura Petals -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <template x-for="(petal, index) in petals" :key="index">
+      <svg class="sakura-petal" :style="`left: ${petal.left}%; animation-delay: ${petal.delay}s, ${petal.shakeDelay}s; animation-duration: ${petal.duration}s, ${petal.shakeDuration}s; width: ${petal.size}px; height: ${petal.size}px;`" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 0C15 0 20 8 20 15C20 22 15 30 15 30C15 30 10 22 10 15C10 8 15 0 15 0Z" fill="#f472b6" opacity="0.45"/>
+      </svg>
+    </template>
+  </div>
 
-            <!-- Stats & Quick Sound Controls -->
-            <div class="flex flex-wrap items-center gap-3 sm:gap-4 w-full md:w-auto justify-between md:justify-end">
-                <div class="glass-card-light px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-medium">
-                    <i class="fa-solid fa-fire text-amber-400 text-sm"></i>
-                    <div>
-                        <span class="text-gray-400 block text-[10px]">Mastered</span>
-                        <span id="stat-mastered-count" class="text-sakura-300 font-bold text-sm">0 / 0</span>
-                    </div>
-                </div>
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 pt-4">
 
-                <div class="glass-card-light px-3 py-1.5 rounded-lg flex items-center gap-2 text-xs font-medium">
-                    <i class="fa-solid fa-trophy text-gold-400 text-sm"></i>
-                    <div>
-                        <span class="text-gray-400 block text-[10px]">Sentence Points</span>
-                        <span id="stat-builder-score" class="text-gold-400 font-bold text-sm">0 pts</span>
-                    </div>
-                </div>
-
-                <button id="btn-audio-test" onclick="speakText('こんにちは！日本へようこそ', 1)" class="glass-card-light hover:bg-sakura-500/20 px-3 py-2 rounded-lg text-xs font-medium text-sakura-300 transition flex items-center gap-2">
-                    <i class="fa-solid fa-volume-high"></i>
-                    <span class="hidden sm:inline">Voice Test</span>
-                </button>
-            </div>
+    <!-- HEADER / HERO BRANDING -->
+    <header class="seigaiha-header rounded-3xl p-6 sm:p-8 text-white shadow-xl mb-6 relative overflow-hidden border border-sakura-200">
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="bg-pink-500/30 text-pink-200 text-xs px-3 py-1 rounded-full font-semibold border border-pink-300/30 backdrop-blur-sm">
+              🌸 Japan Travel Companion
+            </span>
+            <span class="bg-indigo-950/50 text-indigo-200 text-xs px-3 py-1 rounded-full font-semibold border border-indigo-400/30">
+              Offline Ready
+            </span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-3">
+            <span>TabiNihongo</span>
+            <span class="text-xl sm:text-2xl font-japanese font-normal text-pink-200">(旅日本語)</span>
+          </h1>
+          <p class="text-pink-100/90 text-sm sm:text-base mt-1 max-w-xl">
+            Master high-frequency vocabulary, real-world phrases, and restaurant/shopping dialogue for your trip to Japan.
+          </p>
         </div>
+
+        <!-- READINESS SCORE WIDGET -->
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 flex items-center gap-4 min-w-[220px]">
+          <div class="relative w-14 h-14 flex items-center justify-center">
+            <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+              <path class="text-white/20" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="text-pink-300 transition-all duration-700 stroke-current" :stroke-dasharray="`${getOverallProgress()}, 100`" stroke-width="3.5" stroke-linecap="round" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span class="absolute text-sm font-bold" x-text="`${getOverallProgress()}%`"></span>
+          </div>
+          <div>
+            <div class="text-xs text-pink-200 uppercase font-semibold tracking-wider">Traveler Score</div>
+            <div class="text-lg font-extrabold text-white" x-text="getReadinessTitle()"></div>
+            <button @click="openCheatSheet()" class="mt-1 text-xs text-pink-200 hover:text-white underline flex items-center gap-1 transition">
+              <i class="fa-solid fa-book-open"></i> Quick Cheat Sheet
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
 
-    <main class="max-w-6xl mx-auto w-full flex-grow flex flex-col gap-6">
-        
-        <!-- Main Topic Selector -->
-        <div class="glass-card rounded-2xl p-3 sm:p-4 border border-sakura-500/20">
-            <h2 class="text-xs font-bold text-sakura-300 uppercase tracking-wider mb-2 px-1 flex items-center gap-2">
-                <i class="fa-solid fa-map-location-dot"></i> Select Travel Topic
-            </h2>
-            
-            <div id="topic-tab-container" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
-                <!-- Topic buttons injected via JS -->
-            </div>
-        </div>
+    <!-- TOPIC TABS (5 TOPICS) -->
+    <nav class="flex gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar border-b border-sakura-200">
+      <template x-for="(topic, index) in topics" :key="topic.id">
+        <button 
+          @click="selectTopic(index)"
+          :class="currentTopicIndex === index ? 'bg-sakura-900 text-white shadow-md scale-102 border-sakura-400' : 'bg-white text-slate-700 hover:bg-sakura-50 border-sakura-200'"
+          class="flex items-center gap-2 px-4 py-3 rounded-2xl font-medium text-sm whitespace-nowrap border transition-all duration-200 flex-shrink-0 cursor-pointer">
+          <span class="text-lg" x-text="topic.icon"></span>
+          <span x-text="topic.title"></span>
+        </button>
+      </template>
+    </nav>
 
-        <!-- Sub-Mode Selector Header (Under Selected Topic) -->
-        <div class="glass-card rounded-2xl p-4 sm:p-6 border border-sakura-500/20 flex flex-col gap-6">
-            
-            <!-- Dynamic Topic Title & Header Description -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-gray-700/60 pb-4">
-                <div class="flex items-center gap-3">
-                    <span id="current-topic-icon" class="text-3xl sm:text-4xl p-2 rounded-xl bg-sakura-500/10 border border-sakura-500/20 text-sakura-400">💬</span>
-                    <div>
-                        <h2 id="current-topic-title" class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
-                            Essentials & Greetings
-                        </h2>
-                        <p id="current-topic-desc" class="text-xs sm:text-sm text-gray-300 mt-0.5">
-                            Must-know greetings, polite expressions, and basic self-introductions.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Sub-mode Selector Tabs (STRICT ORDER: Flashcards -> Topic Guide -> Sentence Builder -> Roleplay) -->
-                <div class="flex flex-wrap items-center gap-1 bg-indigo-950/80 p-1.5 rounded-xl border border-gray-700/60">
-                    <button onclick="switchSubMode('flashcards')" id="subtab-flashcards" class="subtab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 hover:text-sakura-300 text-gray-300">
-                        <i class="fa-solid fa-clone"></i> <span>1. Flashcards (Vocab)</span>
-                    </button>
-                    <button onclick="switchSubMode('guide')" id="subtab-guide" class="subtab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 hover:text-sakura-300 text-gray-300">
-                        <i class="fa-solid fa-book-open"></i> <span>2. Topic Guide (Sentences)</span>
-                    </button>
-                    <button onclick="switchSubMode('builder')" id="subtab-builder" class="subtab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 hover:text-sakura-300 text-gray-300">
-                        <i class="fa-solid fa-puzzle-piece"></i> <span>3. Sentence Builder</span>
-                    </button>
-                    <button onclick="switchSubMode('roleplay')" id="subtab-roleplay" class="subtab-btn px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition flex items-center gap-2 hover:text-sakura-300 text-gray-300">
-                        <i class="fa-solid fa-comments"></i> <span>4. Roleplay Dialogue</span>
-                    </button>
-                </div>
-            </div>
-
-
-            <!-- MODE 1: INTERACTIVE FLASHCARDS (SINGLE VOCABULARY FOCUS - FIRST MODE) -->
-            <div id="submode-flashcards" class="submode-content space-y-6">
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-indigo-950/60 p-3 rounded-xl border border-gray-700">
-                    <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-300">
-                        <i class="fa-solid fa-circle-question text-sakura-400"></i>
-                        <span>Click card to flip • Master individual Japanese vocabulary</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span id="flashcard-progress" class="text-xs text-sakura-300 font-semibold px-3 py-1 bg-sakura-500/20 rounded-full">Vocab 1 / 10</span>
-                        <button onclick="resetFlashcardsCurrentTopic()" class="text-xs text-gray-400 hover:text-white px-2 py-1 rounded border border-gray-700 hover:bg-gray-800 transition">
-                            <i class="fa-solid fa-rotate-right"></i> Reset
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 3D Flip Card Container -->
-                <div class="flex justify-center my-4">
-                    <div class="w-full max-w-md h-72 perspective-1000">
-                        <div id="flashcard-inner" onclick="flipCurrentCard()" class="flashcard-inner cursor-pointer shadow-2xl">
-                            <!-- Front Side -->
-                            <div class="flashcard-front glass-card border-2 border-sakura-500/40 text-center">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-sakura-300 px-2.5 py-0.5 bg-sakura-500/20 rounded-full border border-sakura-500/30 mb-2">Single Vocabulary</span>
-                                <div id="card-kanji" class="text-3xl sm:text-4xl font-bold font-jp text-white my-2"></div>
-                                <div id="card-kana" class="text-lg text-sakura-200 font-jp mb-1"></div>
-                                <div id="card-romaji" class="text-sm text-gray-300 italic mb-3"></div>
-                                <button onclick="event.stopPropagation(); speakCurrentCardAudio()" class="mt-1 bg-sakura-500/20 hover:bg-sakura-500/40 text-sakura-200 text-xs px-3 py-1.5 rounded-full border border-sakura-500/30 transition flex items-center gap-2">
-                                    <i class="fa-solid fa-volume-high"></i> Pronounce Word
-                                </button>
-                                <span class="text-[10px] text-gray-400 mt-auto">Click card to reveal English meaning</span>
-                            </div>
-
-                            <!-- Back Side -->
-                            <div class="flashcard-back glass-card bg-indigo-950 border-2 border-gold-500/40 text-center">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-1">English Meaning</span>
-                                <div id="card-english" class="text-2xl font-bold text-white my-2"></div>
-                                <div id="card-note" class="text-xs text-gray-300 bg-indigo-900/60 p-3 rounded-lg border border-gray-700/60 max-w-xs text-left mb-3"></div>
-                                <span class="text-[10px] text-gray-400 mt-auto">Click to flip back</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Flashcard Interaction Buttons -->
-                <div class="flex items-center justify-center gap-4 max-w-md mx-auto">
-                    <button onclick="markFlashcard(false)" class="flex-1 py-3 px-4 bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 font-semibold rounded-xl transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-xmark"></i> Need Practice
-                    </button>
-                    <button onclick="markFlashcard(true)" class="flex-1 py-3 px-4 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-semibold rounded-xl transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-check"></i> I Know This Word
-                    </button>
-                </div>
-            </div>
-
-
-            <!-- MODE 2: TOPIC GUIDE (FULL PRACTICAL SENTENCES & EXPRESSIONS) -->
-            <div id="submode-guide" class="submode-content hidden space-y-6">
-                <!-- Special Dynamic Component for Topic 5 / Numbers & Counters Breakdown -->
-                <div id="special-number-explorer" class="hidden space-y-6">
-                    <!-- Breakdown Header Box -->
-                    <div class="glass-card-light rounded-xl p-5 border border-gold-500/30 bg-gradient-to-r from-indigo-950/90 to-amber-950/20">
-                        <h3 class="text-lg font-bold text-gold-400 flex items-center gap-2 mb-2">
-                            <i class="fa-solid fa-layer-group"></i> Understanding Japan's Two Numbering Systems
-                        </h3>
-                        <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                            Japan uses <strong>two distinct numbering systems for 1 to 10</strong>, plus dedicated <strong>counter suffixes</strong> for people, objects, and order items. Understanding when to use which is essential for shopping and dining!
-                        </p>
-                    </div>
-
-                    <!-- Side-by-Side System Comparison Table -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        <!-- System A: Sino-Japanese -->
-                        <div class="glass-card-light rounded-xl p-4 border border-indigo-500/30">
-                            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
-                                <div>
-                                    <h4 class="font-bold text-sakura-300 text-base">1. Sino-Japanese System (漢数字)</h4>
-                                    <p class="text-xs text-gray-400">Used for: Prices, phone numbers, age, general counting, numbers 11-100+</p>
-                                </div>
-                                <span class="bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-1 rounded-full font-mono">1 - 10</span>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm">
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">1 (Ichi)</span>
-                                    <span class="font-bold font-jp text-white">一 (いち)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">2 (Ni)</span>
-                                    <span class="font-bold font-jp text-white">二 (に)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">3 (San)</span>
-                                    <span class="font-bold font-jp text-white">三 (さん)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">4 (Shi/Yon)</span>
-                                    <span class="font-bold font-jp text-white">四 (よん)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">5 (Go)</span>
-                                    <span class="font-bold font-jp text-white">五 (ご)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">6 (Roku)</span>
-                                    <span class="font-bold font-jp text-white">六 (ろく)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">7 (Nana/Shichi)</span>
-                                    <span class="font-bold font-jp text-white">七 (なな)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">8 (Hachi)</span>
-                                    <span class="font-bold font-jp text-white">八 (はち)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">9 (Kyuu/Ku)</span>
-                                    <span class="font-bold font-jp text-white">九 (きゅう)</span>
-                                </div>
-                                <div class="p-2 bg-indigo-900/40 rounded flex justify-between items-center">
-                                    <span class="text-gray-400">10 (Juu)</span>
-                                    <span class="font-bold font-jp text-white">十 (じゅう)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- System B: Native Japanese (Wago) -->
-                        <div class="glass-card-light rounded-xl p-4 border border-sakura-500/30">
-                            <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
-                                <div>
-                                    <h4 class="font-bold text-sakura-300 text-base">2. Native Japanese System (和語)</h4>
-                                    <p class="text-xs text-gray-400">Used for: Ordering items (1-10 items at restaurant/store) without specific counters!</p>
-                                </div>
-                                <span class="bg-sakura-500/20 text-sakura-300 text-xs px-2.5 py-1 rounded-full font-mono">1 - 10</span>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm">
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">1 item (Hitotsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">ひとつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">2 items (Futatsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">ふたつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">3 items (Mitsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">みっつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">4 items (Yottsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">よっつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">5 items (Itsutsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">いつつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">6 items (Muttsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">むっつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">7 items (Nanatsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">ななつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">8 items (Yattsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">やっつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">9 items (Kokonotsu)</span>
-                                    <span class="font-bold font-jp text-sakura-200">ここのつ</span>
-                                </div>
-                                <div class="p-2 bg-sakura-900/20 rounded flex justify-between items-center">
-                                    <span class="text-gray-300">10 items (Tō)</span>
-                                    <span class="font-bold font-jp text-sakura-200">とお</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- People Counter Breakdown Table -->
-                    <div class="glass-card-light rounded-xl p-4 border border-emerald-500/30">
-                        <div class="flex items-center justify-between mb-3 border-b border-gray-700 pb-2">
-                            <div>
-                                <h4 class="font-bold text-emerald-400 text-base flex items-center gap-2">
-                                    <i class="fa-solid fa-users"></i> People Counter System (人 - Nin / Hitori / Futari)
-                                </h4>
-                                <p class="text-xs text-gray-300">Crucial for restaurant entry & booking! Notice 1 & 2 people have irregular native pronunciations.</p>
-                            </div>
-                            <span class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-full">1 - 5 People</span>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
-                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-gray-700/80 text-center">
-                                <span class="text-xs text-gray-400 block">1 Person</span>
-                                <span class="font-bold text-base text-sakura-300 font-jp block">1人 (ひとり)</span>
-                                <span class="text-[11px] text-gray-400 italic">Hitori</span>
-                            </div>
-                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-gray-700/80 text-center">
-                                <span class="text-xs text-gray-400 block">2 People</span>
-                                <span class="font-bold text-base text-sakura-300 font-jp block">2人 (ふたり)</span>
-                                <span class="text-[11px] text-gray-400 italic">Futari</span>
-                            </div>
-                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-gray-700/80 text-center">
-                                <span class="text-xs text-gray-400 block">3 People</span>
-                                <span class="font-bold text-base text-sakura-300 font-jp block">3人 (さんにん)</span>
-                                <span class="text-[11px] text-gray-400 italic">Sannin</span>
-                            </div>
-                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-gray-700/80 text-center">
-                                <span class="text-xs text-gray-400 block">4 People</span>
-                                <span class="font-bold text-base text-sakura-300 font-jp block">4人 (よんにん)</span>
-                                <span class="text-[11px] text-gray-400 italic">Yonnin</span>
-                            </div>
-                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-emerald-500/50 bg-emerald-950/20 text-center">
-                                <span class="text-xs text-emerald-400 font-semibold block">5 People</span>
-                                <span class="font-bold text-base text-emerald-300 font-jp block">5人 (ごにん)</span>
-                                <span class="text-[11px] text-gray-300 italic">Gonin</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-3 p-2.5 bg-amber-950/30 border border-amber-500/30 rounded-lg text-xs text-amber-200 flex items-start gap-2">
-                            <i class="fa-solid fa-circle-info text-amber-400 text-sm mt-0.5"></i>
-                            <div>
-                                <strong>Konbini & Restaurant Greeting Tip:</strong> When staff welcome you, they will ask 
-                                <span class="font-jp text-amber-300 font-bold">"Nan-mei sama desu ka?" / "Gomeisama desu ka?"</span> (How many guests / Party of 5?). 
-                                You reply: <span class="font-jp text-white font-bold">"Gonin desu" (5人です)</span>.
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Number Lookup & Audio Generator -->
-                    <div class="glass-card-light rounded-xl p-5 border border-sakura-500/30 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-sakura-300 text-base flex items-center gap-2">
-                                <i class="fa-solid fa-calculator"></i> Interactive Japanese Price & Number Pronouncer (1 - 100)
-                            </h4>
-                            <span class="text-xs text-gray-400">Drag or type to test audio</span>
-                        </div>
-
-                        <div class="flex flex-col sm:flex-row items-center gap-4 bg-indigo-950/80 p-4 rounded-xl border border-gray-700">
-                            <div class="w-full sm:w-1/2 flex items-center gap-3">
-                                <input id="num-slider" type="range" min="1" max="100" value="5" class="w-full accent-sakura-500 cursor-pointer" oninput="updateNumberExplorer(this.value)">
-                                <span id="num-display-val" class="font-bold text-2xl text-gold-400 w-12 text-center">5</span>
-                            </div>
-
-                            <div class="w-full sm:w-1/2 flex items-center justify-between gap-2 bg-indigo-900/60 p-3 rounded-lg">
-                                <div>
-                                    <span id="num-jp-text" class="font-jp text-lg font-bold text-white block">五 (ご)</span>
-                                    <span id="num-romaji-text" class="text-xs text-sakura-300 block">Go (Yen: Go-en / 五円)</span>
-                                </div>
-                                <button onclick="speakCurrentExplorerNumber()" class="bg-sakura-600 hover:bg-sakura-500 text-white p-2.5 rounded-lg transition shadow-md">
-                                    <i class="fa-solid fa-volume-high text-base"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Main Sentence List Section -->
-                <div>
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-sakura-400"></i> Key Travel Sentences & Practical Expressions
-                        </h3>
-                        <span id="guide-item-count" class="text-xs bg-sakura-500/20 text-sakura-300 px-3 py-1 rounded-full font-medium">0 Sentences</span>
-                    </div>
-
-                    <div id="vocab-card-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Sentence Cards dynamically generated via JS -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODE 3: SENTENCE BUILDER / JUMBLED WORDS -->
-            <div id="submode-builder" class="submode-content hidden space-y-6">
-                <div class="glass-card-light rounded-xl p-4 border border-gold-500/30 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-gold-400 text-base flex items-center gap-2">
-                            <i class="fa-solid fa-puzzle-piece"></i> Jumbled Japanese Sentence Challenge
-                        </h3>
-                        <p class="text-xs text-gray-300">Arrange the jumbled word chips in the correct order to express the target English sentence.</p>
-                    </div>
-                    <span id="builder-score-badge" class="bg-gold-500/20 text-gold-300 font-bold text-xs px-3 py-1.5 rounded-full border border-gold-500/30">
-                        Score: 0
-                    </span>
-                </div>
-
-                <!-- Challenge Question Box -->
-                <div class="glass-card rounded-xl p-6 border border-sakura-500/30 text-center space-y-4">
-                    <span class="text-xs font-bold text-sakura-400 uppercase tracking-wider block">Target English Meaning</span>
-                    <div id="builder-english-target" class="text-xl sm:text-2xl font-bold text-white"></div>
-                    
-                    <!-- Selected Chips Container (Drop zone) -->
-                    <div class="mt-6">
-                        <span class="text-xs text-gray-400 block mb-2">Your Japanese Sentence:</span>
-                        <div id="builder-answer-zone" class="min-h-[64px] p-3 bg-indigo-950/80 rounded-xl border-2 border-dashed border-sakura-500/30 flex flex-wrap items-center justify-center gap-2">
-                            <span class="text-xs text-gray-500 italic">Click words below to place them here</span>
-                        </div>
-                    </div>
-
-                    <!-- Available Word Chips -->
-                    <div class="mt-4">
-                        <span class="text-xs text-gray-400 block mb-2">Available Words:</span>
-                        <div id="builder-word-pool" class="flex flex-wrap items-center justify-center gap-2.5 p-3 min-h-[50px]">
-                            <!-- Chips inserted here -->
-                        </div>
-                    </div>
-
-                    <!-- Live Feedback Alert -->
-                    <div id="builder-feedback" class="hidden p-3 rounded-lg text-xs font-semibold"></div>
-
-                    <!-- Control Actions -->
-                    <div class="flex items-center justify-center gap-3 pt-2">
-                        <button onclick="clearBuilderAnswer()" class="px-4 py-2 bg-gray-700/60 hover:bg-gray-700 text-gray-200 text-xs font-semibold rounded-lg transition">
-                            <i class="fa-solid fa-eraser"></i> Clear
-                        </button>
-                        <button onclick="checkBuilderAnswer()" class="px-6 py-2.5 bg-gradient-to-r from-sakura-600 to-sakura-500 hover:from-sakura-500 hover:to-sakura-400 text-white text-xs font-bold rounded-lg shadow-lg shadow-sakura-600/30 transition">
-                            <i class="fa-solid fa-paper-plane"></i> Check Answer
-                        </button>
-                        <button onclick="nextBuilderQuestion()" id="btn-builder-next" class="hidden px-5 py-2.5 bg-gold-500 hover:bg-gold-400 text-indigo-950 text-xs font-bold rounded-lg transition">
-                            Next Challenge <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MODE 4: TOPIC ROLEPLAY DIALOGUE -->
-            <div id="submode-roleplay" class="submode-content hidden space-y-6">
-                <div class="glass-card-light rounded-xl p-4 border border-sakura-500/30 flex items-center justify-between">
-                    <div>
-                        <h3 class="font-bold text-sakura-300 text-base flex items-center gap-2">
-                            <i class="fa-solid fa-comments"></i> Real-World Travel Scenario Simulation
-                        </h3>
-                        <p class="text-xs text-gray-300">Interact with local Japanese staff! Read/listen to their prompt and choose the natural response.</p>
-                    </div>
-                    <span id="roleplay-scenario-tag" class="bg-sakura-500/20 text-sakura-300 text-xs px-3 py-1 rounded-full border border-sakura-500/30">
-                        Scenario 1
-                    </span>
-                </div>
-
-                <!-- Dialogue Chat Simulation Container -->
-                <div class="glass-card rounded-xl p-4 sm:p-6 border border-sakura-500/30 space-y-4">
-                    <div id="roleplay-chat-history" class="space-y-4 max-h-[350px] overflow-y-auto pr-2">
-                        <!-- Dialogue messages appended dynamically -->
-                    </div>
-
-                    <!-- Options / User Action Selection -->
-                    <div id="roleplay-options-box" class="border-t border-gray-700/80 pt-4 space-y-2">
-                        <span class="text-xs text-sakura-300 font-semibold block mb-2">Choose your reply in Japanese:</span>
-                        <div id="roleplay-options-container" class="grid grid-cols-1 gap-2">
-                            <!-- Reply options injected here -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <footer class="max-w-6xl mx-auto w-full mt-8 mb-4 text-center text-xs text-gray-300 flex flex-col sm:flex-row items-center justify-between gap-2 border-t border-gray-800 pt-4">
+    <!-- TOPIC CONTENT HEADER & SUB-TABS -->
+    <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-sakura-200 mb-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-slate-100 pb-4">
         <div>
-            <span class="font-bold text-sakura-400">TabiNihongo (旅日本語)</span> • Designed for real-world travel in Japan
+          <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-pink-600 mb-1">
+            <span x-text="`TOPIC ${currentTopicIndex + 1} OF ${topics.length}`"></span>
+            <span>•</span>
+            <span x-text="currentTopic.japanese"></span>
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <span x-text="currentTopic.icon"></span>
+            <span x-text="currentTopic.title"></span>
+          </h2>
         </div>
-        <div class="flex items-center gap-4 text-gray-300">
-            <span><i class="fa-solid fa-volume-high text-sakura-400"></i> Web Speech API Enabled</span>
-            <span><i class="fa-solid fa-mobile-screen"></i> Mobile Responsive</span>
+
+        <!-- STRICT 4 SUB-TABS SEQUENCE -->
+        <div class="flex bg-slate-100 p-1.5 rounded-2xl gap-1 overflow-x-auto no-scrollbar">
+          <button 
+            @click="selectSubTab('flashcards')"
+            :class="currentSubTab === 'flashcards' ? 'bg-white text-pink-600 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-medium'"
+            class="px-3 py-2 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 whitespace-nowrap">
+            <span>🎴</span> <span>1. Flashcards</span>
+          </button>
+          
+          <button 
+            @click="selectSubTab('guide')"
+            :class="currentSubTab === 'guide' ? 'bg-white text-pink-600 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-medium'"
+            class="px-3 py-2 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 whitespace-nowrap">
+            <span>📚</span> <span>2. Topic Guide</span>
+          </button>
+
+          <button 
+            @click="selectSubTab('builder')"
+            :class="currentSubTab === 'builder' ? 'bg-white text-pink-600 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-medium'"
+            class="px-3 py-2 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 whitespace-nowrap">
+            <span>🧩</span> <span>3. Sentence Builder</span>
+          </button>
+
+          <button 
+            @click="selectSubTab('roleplay')"
+            :class="currentSubTab === 'roleplay' ? 'bg-white text-pink-600 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-medium'"
+            class="px-3 py-2 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 whitespace-nowrap">
+            <span>💬</span> <span>4. Roleplay Dialogue</span>
+          </button>
         </div>
-    </footer>
+      </div>
 
-    <script>
-        // Comprehensive Topic & Learning Content Database
-        const TOPICS_DATA = [
-            {
-                id: 'essential',
-                icon: '🌟',
-                title: '1. Essentials & Greetings',
-                desc: 'Must-know polite expressions, origins, expressing likes, and speaking proficiency.',
-                // SINGLE VOCABULARY FOCUS FOR FLASHCARDS (TAB 1)
-                flashcards: [
-                    { kanji: 'すみません', kana: 'すみません', romaji: 'Sumimasen', english: 'Excuse me / Sorry', note: 'Universal phrase for getting attention or apologizing politely.' },
-                    { kanji: 'ありがとう', kana: 'ありがとう', romaji: 'Arigatou', english: 'Thank you', note: 'Use "Arigatou gozaimasu" for staff and workers.' },
-                    { kanji: 'おいしい', kana: 'おいしい', romaji: 'Oishii', english: 'Delicious / Tasty', note: 'Expressing pleasure with food.' },
-                    { kanji: 'マレーシア', kana: 'まれーしあ', romaji: 'Maraeshia', english: 'Malaysia', note: 'Country name in Japanese.' },
-                    { kanji: '日本', kana: 'にほん', romaji: 'Nihon', english: 'Japan', note: 'Country name.' },
-                    { kanji: '少し', kana: 'すこし', romaji: 'Sukoshi', english: 'A little bit', note: 'Useful for expressing small amounts or basic skill.' },
-                    { kanji: '待ち時間', kana: 'まちじかん', romaji: 'Machi-jikan', english: 'Wait time', note: 'Refers to queue or restaurant wait duration.' },
-                    { kanji: '席', kana: 'せき', romaji: 'Seki', english: 'Table / Seat', note: 'Used when asking for dining seats.' },
-                    { kanji: '人', kana: 'ひと', romaji: 'Hito', english: 'People / Person', note: 'General noun for person or count of people.' },
-                    { kanji: '日本語', kana: 'にほんご', romaji: 'Nihongo', english: 'Japanese Language', note: 'Nihon (Japan) + Go (Language).' }
-                ],
-                // FULL SENTENCES & EXPRESSIONS FOR TOPIC GUIDE (TAB 2)
-                guideItems: [
-                    { kanji: 'すみません', kana: 'すみません', romaji: 'Sumimasen', english: 'Excuse me / Sorry', note: 'Getting attention at restaurant or asking directions.' },
-                    { kanji: 'ありがとうございます', kana: 'ありがとうございます', romaji: 'Arigatou gozaimasu', english: 'Thank you very much', note: 'Polite thank you used with staff and locals.' },
-                    { kanji: 'とても美味しいです！', kana: 'とてもおいしいです！', romaji: 'Totemo oishii desu!', english: 'Very tasty!', note: 'Great compliment to restaurant staff.' },
-                    { kanji: 'マレーシアから来ました', kana: 'まれーしあからきました', romaji: 'Maraeshia kara kimashita', english: 'I am from Malaysia', note: 'Self-introduction phrase.' },
-                    { kanji: '日本が好きです', kana: 'にほんがすきです', romaji: 'Nihon ga suki desu', english: 'I like Japan', note: 'Friendly icebreaker when chatting.' },
-                    { kanji: '日本語が少ししか分かりません', kana: 'にほんごがすこししかわかりません', romaji: 'Nihongo ga sukoshi shika wakarimasen', english: 'I only know a little bit of Japanese', note: 'Polite expression to indicate beginner proficiency.' },
-                    { kanji: 'どれくらい待ちますか？', kana: 'どれくらいまちますか？', romaji: 'Dorekurai machimasu ka?', english: 'Need to wait for how long?', note: 'Asking restaurant queue time.' },
-                    { kanji: '5人です', kana: 'ごにんです', romaji: 'Gonin desu', english: 'Table for 5 / We are 5 people', note: 'Telling waitstaff your party size.' }
-                ],
-                sentenceQuestions: [
-                    {
-                        english: 'I like Japan.',
-                        correct: ['日本', 'が', '好きです'],
-                        pool: ['日本', 'が', '好きです', 'マレーシア', 'です', 'から']
-                    },
-                    {
-                        english: 'I only know a little bit of Japanese.',
-                        correct: ['日本語が', '少ししか', '分かりません'],
-                        pool: ['日本語が', '少ししか', '分かりません', 'とても', '好きです', '来ました']
-                    },
-                    {
-                        english: 'I am from Malaysia.',
-                        correct: ['マレーシア', 'から', '来ました'],
-                        pool: ['マレーシア', 'から', '来ました', '日本', 'はい', 'すみません']
-                    }
-                ],
-                roleplays: [
-                    {
-                        title: 'Greeting a shopkeeper',
-                        steps: [
-                            {
-                                staffText: 'いらっしゃいませ！どちらから来ましたか？ (Welcome! Where are you from?)',
-                                options: [
-                                    { text: 'マレーシアから来ました。日本が好きです！ (I am from Malaysia. I like Japan!)', correct: true, replyText: 'まあ！嬉しいです！ (Oh, I am so happy to hear that!)' },
-                                    { text: 'いいえ、大丈夫です。 (No, I am okay.)', correct: false, replyText: 'あ、そうですか... (Ah, I see...)' }
-                                ]
-                            },
-                            {
-                                staffText: '日本語がお上手ですね！ (Your Japanese is very good!)',
-                                options: [
-                                    { text: 'いいえ、日本語が少ししか分かりません。(No, I only know a little bit of Japanese.)', correct: true, replyText: '十分ですよ！旅行を楽しんでくださいね！ (It is sufficient! Please enjoy your trip!)' },
-                                    { text: 'マレーシアから来ました。(I am from Malaysia.)', correct: false, replyText: 'はい、先ほど伺いました！ (Yes, you mentioned that!)' }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'dining',
-                icon: '🍱',
-                title: '2. Ordering Food & Drinks',
-                desc: 'Coffee orders (hot/cold), table requests, recommendations, and asking for the bill.',
-                flashcards: [
-                    { kanji: 'コーヒー', kana: 'こーひー', romaji: 'Kōhī', english: 'Coffee', note: 'Popular beverage in kissaten and cafes.' },
-                    { kanji: 'ホット', kana: 'ほっと', romaji: 'Hotto', english: 'Hot drink', note: 'Used when ordering hot coffee or tea.' },
-                    { kanji: 'アイス', kana: 'あいす', romaji: 'Aisu', english: 'Cold / Iced drink', note: 'Used for iced drinks (Aisu Kōhī).' },
-                    { kanji: 'お水', kana: 'おみず', romaji: 'O-mizu', english: 'Water', note: 'Polite word for cold drinking water.' },
-                    { kanji: 'メニュー', kana: 'めにゅー', romaji: 'Menyū', english: 'Menu', note: 'Asking for dining menu.' },
-                    { kanji: 'お会計', kana: 'おかいけい', romaji: 'O-kaikei', english: 'Check / Bill', note: 'Asking to pay at dining table or cashier.' },
-                    { kanji: 'おすすめ', kana: 'おすすめ', romaji: 'Osusume', english: 'Recommendation', note: 'Asking staff for chef specials.' },
-                    { kanji: '美味しい', kana: 'おいしい', romaji: 'Oishii', english: 'Delicious', note: 'Complimenting taste.' },
-                    { kanji: '飲み物', kana: 'のみもの', romaji: 'Nomimono', english: 'Drink / Beverage', note: 'Category word for drinks.' },
-                    { kanji: '食べ物', kana: 'たべもの', romaji: 'Tabemono', english: 'Food', note: 'Category word for food.' }
-                ],
-                guideItems: [
-                    { kanji: 'ホットコーヒーをください', kana: 'ほっとこーひーをください', romaji: 'Hotto kōhī o kudasai', english: 'Hot coffee please', note: 'Ordering hot coffee.' },
-                    { kanji: 'アイスコーヒーをください', kana: 'あいすこーひーをください', romaji: 'Aisu kōhī o kudasai', english: 'Iced coffee please', note: 'Ordering cold coffee.' },
-                    { kanji: 'お水をお願いします', kana: 'おみずをおねがいします', romaji: 'O-mizu o onegai shimasu', english: 'Water please', note: 'Asking for complimentary table water.' },
-                    { kanji: 'お会計をお願いします', kana: 'おかいけいをおねがいします', romaji: 'O-kaikei o onegai shimasu', english: 'Check please / Bill please', note: 'Asking for restaurant bill.' },
-                    { kanji: 'おすすめは何ですか？', kana: 'おすすめはなんですか？', romaji: 'Osusume wa nan desu ka?', english: 'What do you recommend?', note: 'Asking waiter for recommended dishes.' }
-                ],
-                sentenceQuestions: [
-                    {
-                        english: 'Hot coffee please.',
-                        correct: ['ホットコーヒー', 'を', 'ください'],
-                        pool: ['ホットコーヒー', 'を', 'ください', 'アイス', 'お会計', 'お水']
-                    },
-                    {
-                        english: 'Check please.',
-                        correct: ['お会計', 'を', 'お願いします'],
-                        pool: ['お会計', 'を', 'お願いします', 'おすすめ', 'ホット', 'ください']
-                    }
-                ],
-                roleplays: [
-                    {
-                        title: 'Ordering at a cafe counter',
-                        steps: [
-                            {
-                                staffText: 'ご注文はお決まりですか？ (Are you ready to order?)',
-                                options: [
-                                    { text: 'ホットコーヒーをください。(Hot coffee please.)', correct: true, replyText: 'かしこまりました。他にはございますか？ (Understood. Anything else?)' },
-                                    { text: 'お会計をお願いします。(Check please.)', correct: false, replyText: 'まだご注文をお伺いしておりません！(We haven\'t taken your order yet!)' }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'konbini',
-                icon: '🛒',
-                title: '3. Konbini & Shopping',
-                desc: 'Plastic bags, microwave heating, cash/card payment, shoe sizing, and prices.',
-                flashcards: [
-                    { kanji: '袋', kana: 'ふくろ', romaji: 'Fukuro', english: 'Plastic bag', note: 'Shopping bag at convenience stores.' },
-                    { kanji: '温め', kana: 'あたため', romaji: 'Atatame', english: 'Microwave heating', note: 'Warming bento or food items.' },
-                    { kanji: '現金', kana: 'げんきん', romaji: 'Genkin', english: 'Cash', note: 'Physical yen currency notes and coins.' },
-                    { kanji: 'カード', kana: 'かーど', romaji: 'Kādo', english: 'Credit Card', note: 'Touch/chip card payments.' },
-                    { kanji: '靴', kana: 'くつ', romaji: 'Kutsu', english: 'Shoes', note: 'Footwear in retail stores.' },
-                    { kanji: '大きい', kana: 'おおきい', romaji: 'Ōkii', english: 'Big / Large', note: 'Sizing adjective.' },
-                    { kanji: '小さい', kana: 'ちいさい', romaji: 'Chiisai', english: 'Small', note: 'Sizing adjective.' },
-                    { kanji: 'いくら', kana: 'いくら', romaji: 'Ikura', english: 'Price / How much', note: 'Asking costs.' },
-                    { kanji: 'レシート', kana: 'れしーと', romaji: 'Reshīto', english: 'Receipt', note: 'Proof of purchase paper.' },
-                    { kanji: '弁当', kana: 'べんとう', romaji: 'Bentō', english: 'Bento box / Lunchbox', note: 'Prepared meals sold in stores.' }
-                ],
-                guideItems: [
-                    { kanji: '袋はいりますか？', kana: 'ふくろはいりますか？', romaji: 'Fukuro wa irimasu ka?', english: 'Staff: Do you need a plastic bag?', note: 'Standard cashier question.' },
-                    { kanji: '袋お願いします / いりません', kana: 'ふくろおねがいします / いりません', romaji: 'Fukuro onegai shimasu / Irimasen', english: 'I need a bag / No bag needed', note: 'Customer responses.' },
-                    { kanji: '温めますか？', kana: 'あたためますか？', romaji: 'Atatame masu ka?', english: 'Staff: Would you like this heated up?', note: 'When buying bento meals.' },
-                    { kanji: '温めてください / 大丈夫です', kana: 'あたためてください / だいじょうぶです', romaji: 'Atatame te kudasai / Daijoubu desu', english: 'Please heat it up / No thanks', note: 'Customer responses.' },
-                    { kanji: 'これはいくらですか？', kana: 'これはいくらですか？', romaji: 'Kore wa ikura desu ka?', english: 'How much is this?', note: 'Asking price.' },
-                    { kanji: 'これをください', kana: 'これをください', romaji: 'Kore o kudasai', english: 'I want this', note: 'Selection phrase.' },
-                    { kanji: '靴を買いたいです', kana: 'くつをかいたいです', romaji: 'Kutsu o kaitai desu', english: 'I want to buy shoes', note: 'Retail shoe inquiry.' },
-                    { kanji: 'これは大きすぎる / 小さすぎる', kana: 'これはおおきすぎる / ちいさすぎる', romaji: 'Kore wa ookisugiru / chiisasugiru', english: 'This is too big / too small', note: 'Fitting room responses.' },
-                    { kanji: 'カードで支払いたいです', kana: 'かーどでしはらいたいです', romaji: 'Kādo de shiharaitai desu', english: 'I want to pay by card', note: 'Card payment.' },
-                    { kanji: '現金で支払いたいです', kana: 'げんきんでしはらいたいです', romaji: 'Genkin de shiharaitai desu', english: 'I want to pay by cash', note: 'Cash payment.' }
-                ],
-                sentenceQuestions: [
-                    {
-                        english: 'I need a plastic bag please.',
-                        correct: ['袋', 'お願いします'],
-                        pool: ['袋', 'お願いします', 'いりません', 'カードで', '温めて']
-                    },
-                    {
-                        english: 'I want to pay by card.',
-                        correct: ['カードで', '支払いたいです'],
-                        pool: ['カードで', '支払いたいです', '現金で', '靴を', 'いくら']
-                    }
-                ],
-                roleplays: [
-                    {
-                        title: '7-Eleven cashier checkout',
-                        steps: [
-                            {
-                                staffText: 'お弁当温めますか？ (Would you like your bento heated up?)',
-                                options: [
-                                    { text: 'はい、温めてください。(Yes, please heat it up.)', correct: true, replyText: 'かしこまりました。少々お待ちください。(Understood. Please wait a moment.)' },
-                                    { text: 'カードで支払いたいです。(I want to pay by card.)', correct: false, replyText: 'お支払いの前にお温めしますね！(I will heat it before payment!)' }
-                                ]
-                            },
-                            {
-                                staffText: '袋はいりますか？ (Do you need a plastic bag?)',
-                                options: [
-                                    { text: '袋お願いします。(I need a bag please.)', correct: true, replyText: '5円になります。カードをおタッチください。(5 yen extra. Please tap your card.)' },
-                                    { text: '靴を買いたいです。(I want to buy shoes.)', correct: false, replyText: '当店では靴は取り扱っておりません！(We do not sell shoes here!)' }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'transit',
-                icon: '🚆',
-                title: '4. Train & Directions',
-                desc: 'Next station announcements, train destination, finding restrooms and tickets.',
-                flashcards: [
-                    { kanji: '次', kana: 'つぎ', romaji: 'Tsugi', english: 'Next', note: 'Used in train station announcements.' },
-                    { kanji: '駅', kana: 'えき', romaji: 'Eki', english: 'Station', note: 'Train or subway station.' },
-                    { kanji: '電車', kana: 'でんしゃ', romaji: 'Densha', english: 'Train', note: 'Electric train.' },
-                    { kanji: 'トイレ', kana: 'といれ', romaji: 'Toire', english: 'Restroom / Toilet', note: 'Bathroom facility.' },
-                    { kanji: 'どこ', kana: 'どこ', romaji: 'Doko', english: 'Where', note: 'Question word for locations.' },
-                    { kanji: '切符', kana: 'きっぷ', romaji: 'Kippu', english: 'Ticket', note: 'Train or bus ticket.' },
-                    { kanji: '行き', kana: 'ゆき', romaji: 'Yuki', english: 'Bound for / Destination', note: 'Shown on train front displays (e.g., Tokyo-yuki).' },
-                    { kanji: '右', kana: 'みぎ', romaji: 'Migi', english: 'Right side', note: 'Direction word.' },
-                    { kanji: '左', kana: 'ひだり', romaji: 'Hidari', english: 'Left side', note: 'Direction word.' },
-                    { kanji: '出口', kana: 'でぐち', romaji: 'Deguchi', english: 'Exit', note: 'Station or building exit.' }
-                ],
-                guideItems: [
-                    { kanji: '次の駅はどこですか？', kana: 'つぎのえきはどこですか？', romaji: 'Tsugi no eki wa doko desu ka?', english: 'What is the next station?', note: 'Inquiring about current train location.' },
-                    { kanji: 'この電車はどこ行きですか？', kana: 'このでんしゃはどこいきですか？', romaji: 'Kono densha wa doko-yuki desu ka?', english: 'Where does this train go?', note: 'Verifying train destination.' },
-                    { kanji: 'トイレはどこですか？', kana: 'といれはどこですか？', romaji: 'Toire wa doko desu ka?', english: 'Where is the restroom?', note: 'Asking for bathroom location.' },
-                    { kanji: 'ここはどこですか？', kana: 'ここはどこですか？', romaji: 'Koko wa doko desu ka?', english: 'Where am I?', note: 'Asking current location on map.' }
-                ],
-                sentenceQuestions: [
-                    {
-                        english: 'Where is the restroom?',
-                        correct: ['トイレは', 'どこですか？'],
-                        pool: ['トイレは', 'どこですか？', '次の駅', '電車', 'ここ']
-                    },
-                    {
-                        english: 'Where does this train go?',
-                        correct: ['この電車は', 'どこ行き', 'ですか？'],
-                        pool: ['この電車は', 'どこ行き', 'ですか？', 'トイレ', '次の駅']
-                    }
-                ],
-                roleplays: [
-                    {
-                        title: 'Asking station attendant on platform',
-                        steps: [
-                            {
-                                staffText: '何かお困りですか？ (Need any help?)',
-                                options: [
-                                    { text: 'すみません、トイレはどこですか？ (Excuse me, where is the restroom?)', correct: true, replyText: 'あちらの改札の右側にございます。(It is to the right of that ticket gate.)' },
-                                    { text: 'ホットコーヒーをください。(Hot coffee please.)', correct: false, replyText: 'ここは駅のホームですよ！(This is a train platform!)' }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'numbers',
-                icon: '🔢',
-                title: '5. Numbers & Counters',
-                desc: 'Master single counters (Hitotsu, Futatsu, Hitori, Futari, Gonin) and 1-100 system breakdowns.',
-                flashcards: [
-                    { kanji: 'ひとつ', kana: 'ひとつ', romaji: 'Hitotsu', english: 'One item (Native Japanese)', note: 'Counting 1 item when ordering food/objects.' },
-                    { kanji: 'ふたつ', kana: 'ふたつ', romaji: 'Futatsu', english: 'Two items (Native Japanese)', note: 'Counting 2 items.' },
-                    { kanji: 'ひとり', kana: 'ひとり', romaji: 'Hitori', english: 'One person', note: 'Irregular counter for 1 person.' },
-                    { kanji: 'ふたり', kana: 'ふたり', romaji: 'Futari', english: 'Two people', note: 'Irregular counter for 2 people.' },
-                    { kanji: '５人', kana: 'ごにん', romaji: 'Gonin', english: 'Five people', note: 'Counter for 5 people (Go + Nin).' },
-                    { kanji: '百', kana: 'ひゃく', romaji: 'Hyaku', english: 'Hundred (100)', note: 'Used for 100 yen currency.' },
-                    { kanji: '円', kana: 'えん', romaji: 'En', english: 'Japanese Yen', note: 'Currency symbol.' },
-                    { kanji: '数', kana: 'かず', romaji: 'Kazu', english: 'Number / Count', note: 'Noun for numerical count.' },
-                    { kanji: '個', kana: 'こ', romaji: 'Ko', english: 'Small items counter', note: 'Suffix for small objects (e.g., San-ko).' },
-                    { kanji: '何個', kana: 'なんこ', romaji: 'Nan-ko', english: 'How many items?', note: 'Question for object counts.' }
-                ],
-                guideItems: [
-                    { kanji: '5人です', kana: 'ごにんです', romaji: 'Gonin desu', english: 'We are 5 people / Table for 5', note: 'Telling restaurant entry staff.' },
-                    { kanji: 'ひとつをお願いします', kana: 'ひとつをおねがいします', romaji: 'Hitotsu o onegai shimasu', english: 'One item please', note: 'Ordering 1 item using native system.' },
-                    { kanji: 'ふたつをお願いします', kana: 'ふたつをおねがいします', romaji: 'Futatsu o onegai shimasu', english: 'Two items please', note: 'Ordering 2 items.' }
-                ],
-                sentenceQuestions: [
-                    {
-                        english: 'We are 5 people.',
-                        correct: ['5人', 'です'],
-                        pool: ['5人', 'です', 'ひとつ', '円', 'ふたつ']
-                    }
-                ],
-                roleplays: [
-                    {
-                        title: 'Restaurant entrance greeting',
-                        steps: [
-                            {
-                                staffText: 'いらっしゃいませ！ご名様ですか？ (Welcome! Party of how many?)',
-                                options: [
-                                    { text: '5人です。(We are 5 people.)', correct: true, replyText: '5名様ですね。こちらのお席へどうぞ！(5 guests. Right this way to your seat!)' },
-                                    { text: 'ひとつをお願いします。(One item please.)', correct: false, replyText: 'お人数をお伺いしております！(I am asking for your party size!)' }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        ];
+      <!-- ========================================== -->
+      <!-- MODE 1: 🎴 FLASHCARDS (SINGLE VOCAB ONLY) -->
+      <!-- ========================================== -->
+      <div x-show="currentSubTab === 'flashcards'" x-transition.opacity>
+        <div class="max-w-md mx-auto">
+          <!-- Flashcard Header Info -->
+          <div class="flex items-center justify-between text-xs text-slate-500 font-semibold mb-3">
+            <span x-text="`Card ${flashcardIndex + 1} of ${currentTopic.flashcards.length}`"></span>
+            <span class="text-pink-600 bg-pink-50 px-2.5 py-1 rounded-full font-medium" x-text="`Mastered: ${getMasteredCount(currentTopic.id)} / ${currentTopic.flashcards.length}`"></span>
+          </div>
 
-        let state = {
-            currentTopicIndex: 0,
-            currentSubMode: 'flashcards', // STRICT DEFAULT: flashcards (1st mode)
-            masteredCards: new Set(JSON.parse(localStorage.getItem('tabi_mastered_cards') || '[]')),
-            builderScore: 0,
-            
-            // Flashcard state
-            flashcardIndex: 0,
-            isCardFlipped: false,
-
-            // Builder state
-            builderQuestionIndex: 0,
-            builderSelectedChips: [],
-
-            // Roleplay state
-            roleplayStepIndex: 0,
-            roleplayChatHistory: []
-        };
-
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function playSoundEffect(type) {
-            if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            const now = audioCtx.currentTime;
-
-            if (type === 'correct') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now);
-                osc.frequency.setValueAtTime(659.25, now + 0.1);
-                osc.frequency.setValueAtTime(783.99, now + 0.2);
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-                osc.start(now);
-                osc.stop(now + 0.4);
-            } else if (type === 'wrong') {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(220, now);
-                osc.frequency.setValueAtTime(196, now + 0.15);
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
-                osc.start(now);
-                osc.stop(now + 0.35);
-            } else if (type === 'flip') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(400, now);
-                osc.frequency.exponentialRampToValueAtTime(200, now + 0.08);
-                gain.gain.setValueAtTime(0.1, now);
-                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-                osc.start(now);
-                osc.stop(now + 0.08);
-            }
-        }
-
-        function speakText(text, rate = 0.9) {
-            if (!('speechSynthesis' in window)) {
-                return;
-            }
-
-            window.speechSynthesis.cancel();
-            const cleanText = text.replace(/[\(\)〜]/g, '');
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.lang = 'ja-JP';
-            utterance.rate = rate;
-
-            const voices = window.speechSynthesis.getVoices();
-            const jaVoice = voices.find(v => v.lang.startsWith('ja'));
-            if (jaVoice) {
-                utterance.voice = jaVoice;
-            }
-
-            window.speechSynthesis.speak(utterance);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            renderTopicTabs();
-            selectTopic(0);
-
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.onvoiceschanged = () => {
-                    window.speechSynthesis.getVoices();
-                };
-            }
-        });
-
-        function renderTopicTabs() {
-            const container = document.getElementById('topic-tab-container');
-            container.innerHTML = TOPICS_DATA.map((topic, idx) => `
-                <button onclick="selectTopic(${idx})" class="topic-btn glass-card-light hover:bg-sakura-500/20 p-3 rounded-xl transition text-left flex flex-col justify-between border border-gray-700/60 ${idx === state.currentTopicIndex ? 'tab-active' : ''}">
-                    <div class="text-2xl mb-1">${topic.icon}</div>
-                    <div>
-                        <span class="text-xs font-bold block line-clamp-1">${topic.title}</span>
-                        <span class="text-[10px] text-gray-300 block line-clamp-1">${topic.flashcards.length} vocab cards</span>
-                    </div>
-                </button>
-            `).join('');
-        }
-
-        function selectTopic(index) {
-            state.currentTopicIndex = index;
-            state.flashcardIndex = 0;
-            state.isCardFlipped = false;
-            state.builderQuestionIndex = 0;
-            state.roleplayStepIndex = 0;
-            state.roleplayChatHistory = [];
-
-            renderTopicTabs();
-
-            const topic = TOPICS_DATA[index];
-            document.getElementById('current-topic-icon').textContent = topic.icon;
-            document.getElementById('current-topic-title').textContent = topic.title;
-            document.getElementById('current-topic-desc').textContent = topic.desc;
-
-            // Show or hide Number Explorer if Topic 5 (Numbers)
-            const specialExplorer = document.getElementById('special-number-explorer');
-            if (topic.id === 'numbers') {
-                specialExplorer.classList.remove('hidden');
-            } else {
-                specialExplorer.classList.add('hidden');
-            }
-
-            renderFlashcard();
-            renderVocabGuide();
-            renderBuilderQuestion();
-            initRoleplay();
-
-            updateGlobalStats();
-            switchSubMode(state.currentSubMode);
-        }
-
-        function switchSubMode(mode) {
-            state.currentSubMode = mode;
-            document.querySelectorAll('.subtab-btn').forEach(btn => btn.classList.remove('subtab-active'));
-            document.getElementById(`subtab-${mode}`).classList.add('subtab-active');
-
-            document.querySelectorAll('.submode-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`submode-${mode}`).classList.remove('hidden');
-        }
-
-        function renderFlashcard() {
-            const topic = TOPICS_DATA[state.currentTopicIndex];
-            const item = topic.flashcards[state.flashcardIndex];
-
-            document.getElementById('flashcard-progress').textContent = `Vocab ${state.flashcardIndex + 1} / ${topic.flashcards.length}`;
-            
-            document.getElementById('card-kanji').textContent = item.kanji;
-            document.getElementById('card-kana').textContent = item.kana;
-            document.getElementById('card-romaji').textContent = item.romaji;
-            document.getElementById('card-english').textContent = item.english;
-            document.getElementById('card-note').textContent = `Usage Note: ${item.note}`;
-
-            state.isCardFlipped = false;
-            document.getElementById('flashcard-inner').classList.remove('is-flipped');
-        }
-
-        function flipCurrentCard() {
-            playSoundEffect('flip');
-            state.isCardFlipped = !state.isCardFlipped;
-            const cardInner = document.getElementById('flashcard-inner');
-            if (state.isCardFlipped) {
-                cardInner.classList.add('is-flipped');
-            } else {
-                cardInner.classList.remove('is-flipped');
-            }
-        }
-
-        function speakCurrentCardAudio() {
-            const topic = TOPICS_DATA[state.currentTopicIndex];
-            const item = topic.flashcards[state.flashcardIndex];
-            speakText(item.kanji);
-        }
-
-        function markFlashcard(isKnown) {
-            const topic = TOPICS_DATA[state.currentTopicIndex];
-            const cardKey = `${topic.id}_${state.flashcardIndex}`;
-
-            if (isKnown) {
-                state.masteredCards.add(cardKey);
-                playSoundEffect('correct');
-            } else {
-                state.masteredCards.delete(cardKey);
-                playSoundEffect('wrong');
-            }
-
-            localStorage.setItem('tabi_mastered_cards', JSON.stringify(Array.from(state.masteredCards)));
-            updateGlobalStats();
-
-            state.flashcardIndex = (state.flashcardIndex + 1) % topic.flashcards.length;
-            renderFlashcard();
-        }
-
-        function resetFlashcardsCurrentTopic() {
-            state.flashcardIndex = 0;
-            renderFlashcard();
-        }
-
-        function renderVocabGuide() {
-            const topic = TOPICS_DATA[state.currentTopicIndex];
-            const container = document.getElementById('vocab-card-grid');
-            document.getElementById('guide-item-count').textContent = `${topic.guideItems.length} Key Expressions`;
-
-            container.innerHTML = topic.guideItems.map((item, i) => `
-                <div class="glass-card-light rounded-xl p-4 border border-gray-700/80 hover:border-sakura-500/40 transition flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-start justify-between gap-2 mb-2">
-                            <div>
-                                <h4 class="text-xl font-bold font-jp text-white">${item.kanji}</h4>
-                                <p class="text-xs text-sakura-300 font-jp">${item.kana}</p>
-                            </div>
-                            <button onclick="speakText('${item.kanji}')" class="text-sakura-300 hover:text-white p-2 rounded-lg bg-sakura-500/10 hover:bg-sakura-500/30 transition">
-                                <i class="fa-solid fa-volume-high"></i>
-                            </button>
-                        </div>
-                        <p class="text-xs italic text-gray-300 mb-2">${item.romaji}</p>
-                        <p class="text-sm font-semibold text-gold-400 mb-2">${item.english}</p>
-                    </div>
-                    <div class="mt-2 pt-2 border-t border-gray-800 text-[11px] text-gray-400 flex items-center gap-1.5">
-                        <i class="fa-solid fa-lightbulb text-amber-400"></i>
-                        <span>${item.note}</span>
-                    </div>
+          <!-- 3D Flip Card Container -->
+          <div 
+            @click="flipCard()"
+            class="perspective-1000 h-72 w-full cursor-pointer group">
+            <div 
+              :class="isFlipped ? 'rotate-y-180' : ''"
+              class="transform-style-3d relative w-full h-full rounded-3xl transition-transform duration-500 shadow-md hover:shadow-lg border-2 border-sakura-200 bg-white">
+              
+              <!-- Front Side: Japanese Kanji/Kana & Audio -->
+              <div class="backface-hidden absolute inset-0 flex flex-col items-center justify-between p-6 bg-gradient-to-b from-white to-sakura-50 rounded-3xl">
+                <div class="w-full flex justify-between items-center">
+                  <span class="text-xs font-semibold px-2.5 py-1 bg-pink-100 text-pink-700 rounded-full">Single Vocabulary</span>
+                  <button 
+                    @click.stop="toggleMastery(currentCard.id)" 
+                    class="text-lg transition"
+                    :class="isMastered(currentCard.id) ? 'text-amber-500' : 'text-slate-300 hover:text-amber-400'">
+                    <i class="fa-solid fa-star"></i>
+                  </button>
                 </div>
-            `).join('');
-        }
 
-        // ... existing code for updateNumberExplorer, builder, roleplay, and updateGlobalStats ...
-        function updateGlobalStats() {
-            let totalCards = 0;
-            TOPICS_DATA.forEach(t => totalCards += t.flashcards.length);
+                <div class="text-center">
+                  <div class="text-4xl sm:text-5xl font-japanese font-bold text-slate-900 mb-2" x-text="currentCard.japanese"></div>
+                  <div class="text-lg font-medium text-pink-600 tracking-wide" x-text="currentCard.romaji"></div>
+                </div>
 
-            document.getElementById('stat-mastered-count').textContent = `${state.masteredCards.size} / ${totalCards}`;
-            document.getElementById('stat-builder-score').textContent = `${state.builderScore} pts`;
+                <div class="flex items-center gap-2 text-xs text-slate-400 font-medium">
+                  <i class="fa-solid fa-rotate text-pink-400"></i> Click anywhere to flip
+                </div>
+              </div>
+
+              <!-- Back Side: English Meaning & Detailed Context -->
+              <div class="backface-hidden rotate-y-180 absolute inset-0 flex flex-col items-center justify-between p-6 bg-sakura-900 text-white rounded-3xl">
+                <div class="w-full flex justify-between items-center text-xs text-pink-200">
+                  <span>Meaning & Context</span>
+                  <span class="font-japanese text-sm" x-text="currentCard.japanese"></span>
+                </div>
+
+                <div class="text-center">
+                  <div class="text-2xl font-bold text-white mb-2" x-text="currentCard.english"></div>
+                  <div class="text-sm text-pink-200 italic px-4 bg-white/10 py-2 rounded-xl backdrop-blur-sm" x-text="currentCard.note"></div>
+                </div>
+
+                <button 
+                  @click.stop="speakJP(currentCard.japanese)"
+                  class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition shadow-md">
+                  <i class="fa-solid fa-volume-high"></i> Listen Pronunciation
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div class="flex items-center justify-between mt-5 gap-3">
+            <button 
+              @click="prevCard()" 
+              class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-4 rounded-2xl transition flex items-center justify-center gap-2 border border-slate-200 text-sm">
+              <i class="fa-solid fa-arrow-left"></i> Previous
+            </button>
+
+            <button 
+              @click="speakJP(currentCard.japanese); playSound('click')" 
+              class="bg-pink-100 hover:bg-pink-200 text-pink-700 p-3.5 rounded-2xl transition border border-pink-200" title="Play Sound">
+              <i class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+
+            <button 
+              @click="nextCard()" 
+              class="flex-1 bg-sakura-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-sm text-sm">
+              Next <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- MODE 2: 📚 TOPIC GUIDE & PHRASEBOOK -->
+      <!-- ========================================== -->
+      <div x-show="currentSubTab === 'guide'" x-transition.opacity>
+        <div class="space-y-4">
+          <div class="bg-pink-50/60 rounded-2xl p-4 border border-pink-200 text-xs sm:text-sm text-slate-700 flex items-start gap-3">
+            <span class="text-xl">💡</span>
+            <div>
+              <span class="font-bold text-pink-900">Traveler Tip:</span> 
+              Tap the audio icon on any essential phrase to listen to natural Japanese speech before ordering or interacting with staff.
+            </div>
+          </div>
+
+          <!-- PHRASE CARDS LIST -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <template x-for="phrase in currentTopic.phrases" :key="phrase.japanese">
+              <div class="bg-white rounded-2xl p-4 border border-sakura-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2 mb-2">
+                    <span class="text-xs font-bold text-pink-600 bg-pink-100/70 px-2.5 py-0.5 rounded-full" x-text="phrase.category"></span>
+                    <button 
+                      @click="speakJP(phrase.japanese); playSound('click')"
+                      class="text-pink-600 hover:text-pink-800 bg-pink-50 hover:bg-pink-100 p-2 rounded-xl transition flex-shrink-0" title="Listen">
+                      <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                  </div>
+                  <div class="text-xl font-japanese font-bold text-slate-900 mb-1" x-text="phrase.japanese"></div>
+                  <div class="text-sm font-semibold text-pink-600 mb-2" x-text="phrase.romaji"></div>
+                  <div class="text-sm font-medium text-slate-700 bg-slate-50 p-2.5 rounded-xl border border-slate-100 mb-2" x-text="phrase.english"></div>
+                </div>
+                <div class="text-xs text-slate-500 italic" x-text="phrase.note"></div>
+              </div>
+            </template>
+          </div>
+
+          <!-- NUMBERS & COUNTERS SYSTEM EXPLORER (SPECIAL SECTION IN TOPIC 5) -->
+          <template x-if="currentTopic.id === 'numbers'">
+            <div class="mt-8 space-y-6">
+              
+              <!-- SINO VS NATIVE COMPARATIVE TABLE -->
+              <div class="bg-white rounded-3xl p-6 border-2 border-sakura-200 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                  <span>🔢</span> Sino-Japanese vs. Native Japanese Systems (1–10)
+                </h3>
+                <p class="text-xs text-slate-600 mb-4">
+                  <strong>Sino-Japanese</strong> is used for general math, phone numbers, money, and time. 
+                  <strong>Native Japanese</strong> is essential when ordering general items at restaurants (e.g., <em>Hitotsu</em> = 1 item).
+                </p>
+
+                <div class="overflow-x-auto">
+                  <table class="w-full text-left text-xs sm:text-sm">
+                    <thead>
+                      <tr class="bg-sakura-50 text-slate-700 border-b border-sakura-200">
+                        <th class="p-2.5">Num</th>
+                        <th class="p-2.5">Sino-Japanese (Math / Money)</th>
+                        <th class="p-2.5">Native (Item Ordering)</th>
+                        <th class="p-2.5">Audio</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                      <template x-for="num in sinoVsNative" :key="num.n">
+                        <tr class="hover:bg-slate-50">
+                          <td class="p-2.5 font-bold text-pink-600" x-text="num.n"></td>
+                          <td class="p-2.5">
+                            <span class="font-japanese font-bold" x-text="num.sinoJp"></span>
+                            <span class="text-xs text-slate-500 block" x-text="num.sinoRomaji"></span>
+                          </td>
+                          <td class="p-2.5">
+                            <span class="font-japanese font-bold text-indigo-900" x-text="num.nativeJp"></span>
+                            <span class="text-xs text-slate-500 block" x-text="num.nativeRomaji"></span>
+                          </td>
+                          <td class="p-2.5">
+                            <button @click="speakJP(num.nativeJp); playSound('click')" class="text-pink-600 hover:text-pink-800 p-1">
+                              <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- PEOPLE COUNTERS EXPLORER -->
+              <div class="bg-gradient-to-r from-sakura-900 to-indigo-950 text-white rounded-3xl p-6 shadow-md">
+                <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+                  <span>👥</span> Restaurant Party Size Counters (People 1–5)
+                </h3>
+                <p class="text-xs text-pink-200 mb-4">
+                  Staff will welcome you by asking <strong>"Nan-meisama desu ka?"</strong> (How many people?). Answer with these numbers:
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                  <template x-for="person in peopleCounters" :key="person.count">
+                    <div @click="speakJP(person.jp)" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl border border-white/20 text-center cursor-pointer transition">
+                      <div class="text-xs text-pink-300 font-bold" x-text="`${person.count} Person`"></div>
+                      <div class="text-lg font-japanese font-bold text-white mt-1" x-text="person.jp"></div>
+                      <div class="text-xs text-pink-200" x-text="person.romaji"></div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+
+              <!-- INTERACTIVE 1–100 PRICE & NUMBER CONVERTER SLIDER -->
+              <div class="bg-white rounded-3xl p-6 border-2 border-sakura-200 shadow-md text-center">
+                <h3 class="text-lg font-bold text-slate-900 mb-1 flex items-center justify-center gap-2">
+                  <span>💴</span> Interactive 1–100 Price & Number Converter
+                </h3>
+                <p class="text-xs text-slate-500 mb-4">Drag slider to convert numbers into Yen prices, Kanji, and spoken Japanese Romaji</p>
+
+                <div class="max-w-md mx-auto mb-6">
+                  <input 
+                    type="range" 
+                    min="1" 
+                    max="100" 
+                    x-model="sliderValue" 
+                    @input="playSliderAudio()"
+                    class="w-full accent-pink-600 h-2 bg-pink-100 rounded-lg cursor-pointer">
+                </div>
+
+                <div class="bg-sakura-50 p-5 rounded-2xl border border-sakura-200 inline-block w-full max-w-sm">
+                  <div class="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">Selected Value / Price</div>
+                  <div class="text-3xl font-extrabold text-pink-600 mb-1" x-text="`¥${(sliderValue * 100).toLocaleString()}`"></div>
+                  <div class="text-2xl font-japanese font-bold text-slate-900 mb-1" x-text="getJapaneseNumber(sliderValue).kanji"></div>
+                  <div class="text-sm font-semibold text-indigo-900 mb-3" x-text="getJapaneseNumber(sliderValue).romaji"></div>
+
+                  <button 
+                    @click="speakJP(getJapaneseNumber(sliderValue).kanji); playSound('click')"
+                    class="bg-pink-600 hover:bg-pink-700 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow flex items-center justify-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i> Speak Number
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </template>
+
+          <!-- SHOE SIZE COMPARISON GUIDE (IN KONBINI & SHOPPING TOPIC) -->
+          <template x-if="currentTopic.id === 'shopping'">
+            <div class="mt-8 bg-white rounded-3xl p-6 border-2 border-sakura-200 shadow-sm">
+              <h3 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+                <span>👟</span> Japan Shoe Size Comparison Chart (cm vs. US/EU)
+              </h3>
+              <p class="text-xs text-slate-600 mb-4">Japanese shoe sizes are measured directly in centimeters (cm).</p>
+              
+              <div class="overflow-x-auto">
+                <table class="w-full text-center text-xs sm:text-sm">
+                  <thead>
+                    <tr class="bg-pink-100 text-pink-900 font-bold">
+                      <th class="p-2">JP Size (cm)</th>
+                      <th class="p-2">US Women</th>
+                      <th class="p-2">US Men</th>
+                      <th class="p-2">EU Size</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">23.0 cm</td><td>6.0</td><td>5.0</td><td>36.5</td></tr>
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">24.0 cm</td><td>7.0</td><td>6.0</td><td>38.0</td></tr>
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">25.0 cm</td><td>8.0</td><td>7.0</td><td>39.5</td></tr>
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">26.0 cm</td><td>9.0</td><td>8.0</td><td>41.0</td></tr>
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">27.0 cm</td><td>10.0</td><td>9.0</td><td>42.5</td></tr>
+                    <tr class="hover:bg-slate-50"><td class="p-2 font-bold text-slate-900">28.0 cm</td><td>11.0</td><td>10.0</td><td>44.0</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </template>
+
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- MODE 3: 🧩 SENTENCE BUILDER (WORD PUZZLE) -->
+      <!-- ========================================== -->
+      <div x-show="currentSubTab === 'builder'" x-transition.opacity>
+        <div class="max-w-xl mx-auto bg-slate-50 p-6 rounded-3xl border border-sakura-200">
+          
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold text-pink-600 bg-pink-100 px-3 py-1 rounded-full" x-text="`Puzzle ${builderIndex + 1} of ${currentTopic.sentenceBuilder.length}`"></span>
+            <span class="text-xs font-semibold text-slate-500" x-text="`Completed: ${getCompletedPuzzles(currentTopic.id)} / ${currentTopic.sentenceBuilder.length}`"></span>
+          </div>
+
+          <!-- Target Translation -->
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 mb-6 text-center">
+            <div class="text-xs uppercase text-slate-400 font-bold mb-1">Construct This Travel Sentence:</div>
+            <div class="text-lg font-bold text-slate-900" x-text="currentPuzzle.english"></div>
+          </div>
+
+          <!-- Selected Word Chips Dropzone -->
+          <div class="mb-6">
+            <div class="text-xs font-semibold text-slate-500 mb-2">Your Answer Space:</div>
+            <div class="min-h-[80px] bg-white rounded-2xl p-3 border-2 border-dashed border-sakura-300 flex flex-wrap gap-2 items-center justify-center">
+              <template x-for="(chip, idx) in selectedChips" :key="idx">
+                <button 
+                  @click="removeChip(idx)"
+                  class="bg-sakura-900 text-white rounded-xl px-3 py-2 text-center transition hover:scale-95 shadow-sm">
+                  <!-- STRICT DUAL TEXT FORMAT: JAPANESE ON TOP, ROMAJI ON BOTTOM -->
+                  <div class="text-base font-japanese font-bold leading-tight" x-text="chip.jp"></div>
+                  <div class="text-[10px] text-pink-200 font-mono leading-tight mt-0.5" x-text="chip.romaji"></div>
+                </button>
+              </template>
+
+              <div x-show="selectedChips.length === 0" class="text-xs text-slate-400 italic">
+                Tap the jumbled chips below to build the sentence...
+              </div>
+            </div>
+          </div>
+
+          <!-- Jumbled Available Word Chips -->
+          <div class="mb-6">
+            <div class="text-xs font-semibold text-slate-500 mb-2">Available Word Chips:</div>
+            <div class="flex flex-wrap gap-2 justify-center">
+              <template x-for="(chip, idx) in availableChips" :key="idx">
+                <button 
+                  @click="addChip(chip, idx)"
+                  class="bg-white hover:bg-sakura-50 text-slate-800 border-2 border-sakura-200 rounded-xl px-3.5 py-2 text-center transition hover:scale-105 shadow-sm cursor-pointer">
+                  <!-- STRICT DUAL TEXT FORMAT: JAPANESE ON TOP, ROMAJI ON BOTTOM -->
+                  <div class="text-base font-japanese font-bold text-slate-900 leading-tight" x-text="chip.jp"></div>
+                  <div class="text-[11px] text-pink-600 font-semibold font-mono leading-tight mt-0.5" x-text="chip.romaji"></div>
+                </button>
+              </template>
+            </div>
+          </div>
+
+          <!-- Validation Feedback Banner -->
+          <div x-show="puzzleFeedback" class="mb-4 text-center p-3 rounded-2xl text-sm font-bold"
+               :class="puzzleIsCorrect ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'">
+            <span x-text="puzzleFeedback"></span>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center justify-between gap-3">
+            <button 
+              @click="resetPuzzle()" 
+              class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2.5 px-4 rounded-xl text-xs transition">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+
+            <button 
+              @click="checkAnswer()" 
+              class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 px-6 rounded-xl text-sm shadow-md transition">
+              Check Answer
+            </button>
+
+            <button 
+              @click="nextPuzzle()" 
+              class="bg-sakura-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition">
+              Next <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- MODE 4: 💬 ROLEPLAY DIALOGUE -->
+      <!-- ========================================== -->
+      <div x-show="currentSubTab === 'roleplay'" x-transition.opacity>
+        <div class="max-w-2xl mx-auto bg-slate-50 p-6 rounded-3xl border border-sakura-200">
+          
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+            <div>
+              <span class="text-xs font-bold text-pink-600 uppercase tracking-wider">Roleplay Scenario</span>
+              <h3 class="text-lg font-bold text-slate-900" x-text="currentRoleplay.title"></h3>
+            </div>
+
+            <button 
+              @click="toggleAutoPlayRoleplay()"
+              :class="isAutoPlaying ? 'bg-amber-500 text-white' : 'bg-white text-pink-600 border border-pink-200'"
+              class="px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid" :class="isAutoPlaying ? 'fa-pause' : 'fa-play'"></i>
+              <span x-text="isAutoPlaying ? 'Pause Auto-Play' : 'Auto-Play Dialogue'"></span>
+            </button>
+          </div>
+
+          <!-- Chat Conversation Box -->
+          <div class="space-y-4 mb-6 min-h-[220px]">
+            <template x-for="(step, idx) in currentRoleplay.steps.slice(0, roleplayStepIndex + 1)" :key="idx">
+              <div class="space-y-3">
+                
+                <!-- Japanese Staff Prompt -->
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 rounded-full bg-indigo-900 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow">
+                    🇯🇵
+                  </div>
+                  <div class="bg-white p-3.5 rounded-2xl rounded-tl-none border border-slate-200 max-w-[85%] shadow-sm">
+                    <div class="text-xs text-indigo-900 font-bold mb-0.5" x-text="step.speaker"></div>
+                    <div class="text-base font-japanese font-bold text-slate-900" x-text="step.staffJp"></div>
+                    <div class="text-xs text-pink-600 font-semibold" x-text="step.staffRomaji"></div>
+                    <div class="text-xs text-slate-500 italic mt-1 border-t border-slate-100 pt-1" x-text="step.staffEnglish"></div>
+                    <button @click="speakJP(step.staffJp)" class="mt-2 text-[11px] text-pink-600 hover:text-pink-800 font-bold flex items-center gap-1">
+                      <i class="fa-solid fa-volume-high"></i> Replay Audio
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Traveler Response (If selected or auto-played) -->
+                <div x-show="idx < roleplayStepIndex || roleplayStepCompleted" class="flex items-start gap-3 justify-end">
+                  <div class="bg-pink-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm">
+                    <div class="text-xs text-pink-200 font-bold mb-0.5">You (Traveler)</div>
+                    <div class="text-base font-japanese font-bold" x-text="step.userJp"></div>
+                    <div class="text-xs text-pink-200 font-medium" x-text="step.userRomaji"></div>
+                    <div class="text-xs text-pink-100 italic mt-1 border-t border-pink-500/50 pt-1" x-text="step.userEnglish"></div>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow">
+                    🧳
+                  </div>
+                </div>
+
+              </div>
+            </template>
+          </div>
+
+          <!-- Interactive User Choice Selection -->
+          <div x-show="!roleplayStepCompleted && roleplayStepIndex < currentRoleplay.steps.length" class="bg-white p-4 rounded-2xl border border-pink-200 shadow-sm">
+            <div class="text-xs font-bold text-slate-500 mb-2">Select Your Best Response:</div>
+            <div class="space-y-2">
+              <template x-for="(option, oIdx) in currentRoleplay.steps[roleplayStepIndex]?.options || []" :key="oIdx">
+                <button 
+                  @click="selectRoleplayOption(option)"
+                  class="w-full text-left bg-slate-50 hover:bg-pink-50 p-3 rounded-xl border border-slate-200 hover:border-pink-300 transition text-xs sm:text-sm">
+                  <div class="font-japanese font-bold text-slate-900" x-text="option.jp"></div>
+                  <div class="text-xs text-pink-600 font-semibold" x-text="option.romaji"></div>
+                  <div class="text-xs text-slate-500" x-text="option.english"></div>
+                </button>
+              </template>
+            </div>
+          </div>
+
+          <!-- Scenario Completed / Next Buttons -->
+          <div class="flex items-center justify-between mt-6">
+            <button 
+              @click="resetRoleplay()" 
+              class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-2 px-4 rounded-xl text-xs transition">
+              <i class="fa-solid fa-rotate-left"></i> Restart Conversation
+            </button>
+
+            <button 
+              x-show="roleplayStepCompleted && roleplayStepIndex < currentRoleplay.steps.length - 1"
+              @click="nextRoleplayStep()" 
+              class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs transition shadow">
+              Continue Conversation <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- TRAVEL CHEAT SHEET MODAL -->
+  <div 
+    x-show="showCheatSheet" 
+    x-transition.opacity 
+    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div @click.away="showCheatSheet = false" class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-hidden flex flex-col shadow-2xl border-2 border-sakura-200">
+      
+      <div class="seigaiha-header p-5 text-white flex justify-between items-center">
+        <div>
+          <h3 class="text-xl font-bold flex items-center gap-2">
+            <span>🌸</span> Japan Travel Essential Cheat Sheet
+          </h3>
+          <p class="text-xs text-pink-200">Quick offline reference for emergency & high-frequency travel phrases</p>
+        </div>
+        <button @click="showCheatSheet = false" class="text-white hover:text-pink-200 text-xl p-2">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 font-sans text-xs sm:text-sm">
+        
+        <div class="bg-pink-50 p-4 rounded-2xl border border-pink-200">
+          <h4 class="font-bold text-pink-900 mb-2">🚨 Essential Magic Words</h4>
+          <ul class="space-y-1.5 text-slate-800">
+            <li><strong>Sumimasen:</strong> Excuse me / Sorry / Getting attention</li>
+            <li><strong>Arigatou gozaimasu:</strong> Thank you very much</li>
+            <li><strong>Kore o kudasai:</strong> I want this, please</li>
+            <li><strong>Doko desu ka?:</strong> Where is ...?</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 mb-2">🍜 Restaurant & Cafe Shortcuts</h4>
+          <ul class="space-y-1.5 text-slate-800">
+            <li><strong>Gonin desu:</strong> Party of 5 people</li>
+            <li><strong>Hotto / Aisu:</strong> Hot / Cold (Iced)</li>
+            <li><strong>O-kaikei onegai shimasu:</strong> Check/Bill please</li>
+            <li><strong>Totte mo oishii desu:</strong> Very delicious!</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+          <h4 class="font-bold text-slate-900 mb-2">🏪 Konbini & Shopping</h4>
+          <ul class="space-y-1.5 text-slate-800">
+            <li><strong>Fukuro onegai shimasu:</strong> Plastic bag please</li>
+            <li><strong>Atatame te kudasai:</strong> Please warm up my bento</li>
+            <li><strong>Kādo de / Genkin de:</strong> Pay by card / Pay by cash</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-slate-100 border-t border-slate-200 flex justify-end">
+        <button @click="showCheatSheet = false" class="bg-sakura-900 text-white font-bold px-5 py-2 rounded-xl text-xs">
+          Close Cheat Sheet
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC IN ALPINE.JS -->
+  <script>
+    function appData() {
+      return {
+        // Ambient Petals
+        petals: Array.from({ length: 12 }, () => ({
+          left: Math.random() * 100,
+          delay: Math.random() * 5,
+          shakeDelay: Math.random() * 3,
+          duration: 8 + Math.random() * 6,
+          shakeDuration: 2 + Math.random() * 3,
+          size: 15 + Math.random() * 15
+        })),
+
+        showCheatSheet: false,
+        currentTopicIndex: 0,
+        currentSubTab: 'flashcards', // 'flashcards', 'guide', 'builder', 'roleplay'
+
+        // State trackers
+        flashcardIndex: 0,
+        isFlipped: false,
+        masteredCards: (window.Alpine && window.Alpine.$persist) ? Alpine.$persist([]).as('tabin_mastered') : [],
+        
+        sliderValue: 25,
+
+        builderIndex: 0,
+        selectedChips: [],
+        availableChips: [],
+        puzzleFeedback: '',
+        puzzleIsCorrect: false,
+        completedPuzzles: (window.Alpine && window.Alpine.$persist) ? Alpine.$persist([]).as('tabin_completed_puzzles') : [],
+
+        roleplayStepIndex: 0,
+        roleplayStepCompleted: false,
+        isAutoPlaying: false,
+        autoPlayTimer: null,
+
+        // NUMBERS & COUNTERS DATA
+        sinoVsNative: [
+          { n: 1, sinoJp: '一 (Ichi)', sinoRomaji: 'Ichi', nativeJp: 'ひとつ', nativeRomaji: 'Hitotsu' },
+          { n: 2, sinoJp: '二 (Ni)', sinoRomaji: 'Ni', nativeJp: 'ふたつ', nativeRomaji: 'Futatsu' },
+          { n: 3, sinoJp: '三 (San)', sinoRomaji: 'San', nativeJp: 'みっつ', nativeRomaji: 'Mitsu' },
+          { n: 4, sinoJp: '四 (Yon/Shi)', sinoRomaji: 'Yon', nativeJp: 'よっつ', nativeRomaji: 'Yotsu' },
+          { n: 5, sinoJp: '五 (Go)', sinoRomaji: 'Go', nativeJp: 'いつつ', nativeRomaji: 'Itsutsu' },
+          { n: 6, sinoJp: '六 (Roku)', sinoRomaji: 'Roku', nativeJp: 'むっつ', nativeRomaji: 'Mutsu' },
+          { n: 7, sinoJp: '七 (Nana/Shichi)', sinoRomaji: 'Nana', nativeJp: 'ななつ', nativeRomaji: 'Nanatsu' },
+          { n: 8, sinoJp: '八 (Hachi)', sinoRomaji: 'Hachi', nativeJp: 'やっつ', nativeRomaji: 'Yatsu' },
+          { n: 9, sinoJp: '九 (Kyū/Ku)', sinoRomaji: 'Kyū', nativeJp: 'ここのつ', nativeRomaji: 'Kokonotsu' },
+          { n: 10, sinoJp: '十 (Jū)', sinoRomaji: 'Jū', nativeJp: 'とお', nativeRomaji: 'Tō' }
+        ],
+
+        peopleCounters: [
+          { count: 1, jp: '一人 (ひとり)', romaji: 'Hitori' },
+          { count: 2, jp: '二人 (ふたり)', romaji: 'Futari' },
+          { count: 3, jp: '三人 (さんにん)', romaji: 'Sannin' },
+          { count: 4, jp: '四人 (よんにん)', romaji: 'Yonnin' },
+          { count: 5, jp: '五人 (ごにん)', romaji: 'Gonin' }
+        ],
+
+        // MAIN TOPICS DATA
+        topics: [
+          {
+            id: 'essentials',
+            title: 'Essentials & Intro',
+            japanese: '基本 & 自己紹介',
+            icon: '🌸',
+            flashcards: [
+              { id: 'fc1', japanese: 'すみません', romaji: 'Sumimasen', english: 'Excuse me / Sorry', note: 'Essential to call staff or apologize.' },
+              { id: 'fc2', japanese: 'ありがとう', romaji: 'Arigatou', english: 'Thank you', note: 'Add "gozaimasu" for formal settings.' },
+              { id: 'fc3', japanese: 'おいしい', romaji: 'Oishii', english: 'Delicious', note: 'Say this to chefs or friends!' },
+              { id: 'fc4', japanese: 'マレーシア', romaji: 'Maraeshia', english: 'Malaysia', note: 'Country name.' },
+              { id: 'fc5', japanese: '日本', romaji: 'Nihon', english: 'Japan', note: 'The country Japan.' },
+              { id: 'fc6', japanese: '少し', romaji: 'Sukoshi', english: 'A little', note: 'Used when saying "a little bit".' },
+              { id: 'fc7', japanese: '待ち時間', romaji: 'Machi-jikan', english: 'Wait time', note: 'Asking about restaurant queues.' },
+              { id: 'fc8', japanese: '席', romaji: 'Seki', english: 'Seat / Table', note: 'Referring to dining tables.' },
+              { id: 'fc9', japanese: '人', romaji: 'Hito', english: 'Person', note: 'Base counter word for people.' },
+              { id: 'fc10', japanese: '日本語', romaji: 'Nihongo', english: 'Japanese language', note: 'Referring to Japanese language.' }
+            ],
+            phrases: [
+              { category: 'Politeness', japanese: 'すみません', romaji: 'Sumimasen', english: 'Excuse me', note: 'Used everywhere in Japan.' },
+              { category: 'Politeness', japanese: 'ありがとうございます', romaji: 'Arigatou gozaimasu', english: 'Thank you very much', note: 'Polite appreciation.' },
+              { category: 'Food Review', japanese: 'とってもおいしいです', romaji: 'Totte mo oishii desu', english: 'Very tasty / delicious', note: 'Great compliment to staff.' },
+              { category: 'Self-Intro', japanese: 'マレーシアから来ました', romaji: 'Maraeshia kara kimashita', english: 'I am from Malaysia', note: 'Telling local people your origin.' },
+              { category: 'Self-Intro', japanese: '日本が好きです', romaji: 'Nihon ga suki desu', english: 'I like Japan', note: 'Friendly travel connection phrase.' },
+              { category: 'Language', japanese: '日本語は少ししか分かりません', romaji: 'Nihongo wa sukoshi shika wakarimasen', english: 'I only know a little bit of Japanese', note: 'Sets comfortable expectations.' },
+              { category: 'Dining', japanese: '５人です', romaji: 'Gonin desu', english: 'I want a table for 5, please', note: 'Stating party size.' },
+              { category: 'Dining', japanese: 'どれくらい待ちますか？', romaji: 'Dorekurai machimasu ka?', english: 'How long do we need to wait?', note: 'Asking restaurant queue time.' }
+            ],
+            sentenceBuilder: [
+              {
+                id: 'sb1',
+                english: 'I am from Malaysia.',
+                targetJP: 'マレーシアから来ました',
+                chips: [
+                  { jp: 'マレーシア', romaji: 'Maraeshia' },
+                  { jp: 'から', romaji: 'kara' },
+                  { jp: '来ました', romaji: 'kimashita' }
+                ]
+              },
+              {
+                id: 'sb2',
+                english: 'I like Japan.',
+                targetJP: '日本が好きです',
+                chips: [
+                  { jp: '日本', romaji: 'Nihon' },
+                  { jp: 'が', romaji: 'ga' },
+                  { jp: '好きです', romaji: 'suki desu' }
+                ]
+              },
+              {
+                id: 'sb3',
+                english: 'I only know a little bit of Japanese.',
+                targetJP: '日本語は少ししか分かりません',
+                chips: [
+                  { jp: '日本語は', romaji: 'Nihongo wa' },
+                  { jp: '少ししか', romaji: 'sukoshi shika' },
+                  { jp: '分かりません', romaji: 'wakarimasen' }
+                ]
+              },
+              {
+                id: 'sb4',
+                english: 'Table for 5, please.',
+                targetJP: '５人です',
+                chips: [
+                  { jp: '５人', romaji: 'Gonin' },
+                  { jp: 'です', romaji: 'desu' }
+                ]
+              }
+            ],
+            roleplay: {
+              title: 'Restaurant Greeting & Wait Time',
+              steps: [
+                {
+                  speaker: 'Restaurant Staff',
+                  staffJp: 'いらっしゃいませ！何名様ですか？',
+                  staffRomaji: 'Irasshaimase! Nan-meisama desu ka?',
+                  staffEnglish: 'Welcome! How many people in your party?',
+                  userJp: '５人です。',
+                  userRomaji: 'Gonin desu.',
+                  userEnglish: 'Table for 5 people, please.',
+                  options: [
+                    { jp: '５人です。', romaji: 'Gonin desu.', english: 'Table for 5 people.' },
+                    { jp: '一人です。', romaji: 'Hitori desu.', english: 'Just 1 person.' }
+                  ]
+                },
+                {
+                  speaker: 'Restaurant Staff',
+                  staffJp: 'ただいま満席です。１５分ほど待ちます。',
+                  staffRomaji: 'Tadaima manseki desu. Jū-go fun hodo machimasu.',
+                  staffEnglish: 'We are full right now. It will be about a 15-minute wait.',
+                  userJp: '分かりました。待ちます。',
+                  userRomaji: 'Wakarimashita. Machimasu.',
+                  userEnglish: 'Understood. We will wait.',
+                  options: [
+                    { jp: '分かりました。待ちます。', romaji: 'Wakarimashita. Machimasu.', english: 'Understood, we will wait.' },
+                    { jp: 'じゃあ、また来ます。', romaji: 'Jaa, mata kimasu.', english: 'Then we will come back later.' }
+                  ]
+                }
+              ]
+            }
+          },
+
+          {
+            id: 'food',
+            title: 'Food & Drinks',
+            japanese: '飲食 & 注文',
+            icon: '🍜',
+            flashcards: [
+              { id: 'fc11', japanese: 'コーヒー', romaji: 'Kōhī', english: 'Coffee', note: 'Standard coffee.' },
+              { id: 'fc12', japanese: 'ホット', romaji: 'Hotto', english: 'Hot', note: 'Hot drinks.' },
+              { id: 'fc13', japanese: 'アイス', romaji: 'Aisu', english: 'Cold / Iced', note: 'Cold or iced drinks.' },
+              { id: 'fc14', japanese: 'お水', romaji: 'O-mizu', english: 'Water', note: 'Complimentary drinking water.' },
+              { id: 'fc15', japanese: 'メニュー', romaji: 'Menyū', english: 'Menu', note: 'Dining menu.' },
+              { id: 'fc16', japanese: 'お会計', romaji: 'O-kaikei', english: 'The Bill / Check', note: 'Asking for the bill.' },
+              { id: 'fc17', japanese: 'おすすめ', romaji: 'Osusume', english: 'Recommendation', note: 'Chef recommendation.' },
+              { id: 'fc18', japanese: '飲み物', romaji: 'Nomimono', english: 'Drinks', note: 'Beverages.' },
+              { id: 'fc19', japanese: '食べ物', romaji: 'Tabemono', english: 'Food', note: 'Edible items.' },
+              { id: 'fc20', japanese: 'ください', romaji: 'Kudasai', english: 'Please give me', note: 'Ordering polite phrase.' }
+            ],
+            phrases: [
+              { category: 'Cafe', japanese: 'ホットコーヒー', romaji: 'Hotto kōhī', english: 'Hot coffee', note: 'Ordering hot coffee.' },
+              { category: 'Cafe', japanese: 'アイスコーヒー', romaji: 'Aisu kōhī', english: 'Cold / Iced coffee', note: 'Ordering iced coffee.' },
+              { category: 'Cafe', japanese: 'コーヒーを買いたいです', romaji: 'Kōhī o kaimatai desu', english: 'I want to buy coffee', note: 'Expressing drink order intention.' },
+              { category: 'Water', japanese: 'お水をください', romaji: 'O-mizu o kudasai', english: 'Water please', note: 'Asking staff for water.' },
+              { category: 'Checkout', japanese: 'お会計をお願いします', romaji: 'O-kaikei o onegai shimasu', english: 'The bill, please', note: 'Asking for check at table.' }
+            ],
+            sentenceBuilder: [
+              {
+                id: 'sb5',
+                english: 'I want to buy coffee.',
+                targetJP: 'コーヒーを買いたいです',
+                chips: [
+                  { jp: 'コーヒーを', romaji: 'Kōhī o' },
+                  { jp: '買いたいです', romaji: 'kaimatai desu' }
+                ]
+              },
+              {
+                id: 'sb6',
+                english: 'One iced coffee, please.',
+                targetJP: 'アイスコーヒーをください',
+                chips: [
+                  { jp: 'アイスコーヒーを', romaji: 'Aisu kōhī o' },
+                  { jp: 'ください', romaji: 'kudasai' }
+                ]
+              },
+              {
+                id: 'sb7',
+                english: 'Water please.',
+                targetJP: 'お水をください',
+                chips: [
+                  { jp: 'お水を', romaji: 'O-mizu o' },
+                  { jp: 'ください', romaji: 'kudasai' }
+                ]
+              },
+              {
+                id: 'sb8',
+                english: 'The bill please.',
+                targetJP: 'お会計をお願いします',
+                chips: [
+                  { jp: 'お会計を', romaji: 'O-kaikei o' },
+                  { jp: 'お願いします', romaji: 'onegai shimasu' }
+                ]
+              }
+            ],
+            roleplay: {
+              title: 'Cafe Coffee Ordering',
+              steps: [
+                {
+                  speaker: 'Cafe Barista',
+                  staffJp: 'ご注文はお決まりですか？',
+                  staffRomaji: 'Go-chūmon wa okimari desu ka?',
+                  staffEnglish: 'Are you ready to order?',
+                  userJp: 'ホットコーヒーをください。',
+                  userRomaji: 'Hotto kōhī o kudasai.',
+                  userEnglish: 'Hot coffee, please.',
+                  options: [
+                    { jp: 'ホットコーヒーをください。', romaji: 'Hotto kōhī o kudasai.', english: 'Hot coffee, please.' },
+                    { jp: 'アイスコーヒーをください。', romaji: 'Aisu kōhī o kudasai.', english: 'Iced coffee, please.' }
+                  ]
+                }
+              ]
+            }
+          },
+
+          {
+            id: 'shopping',
+            title: 'Konbini & Shopping',
+            japanese: 'コンビニ & 買い物',
+            icon: '🏪',
+            flashcards: [
+              { id: 'fc21', japanese: '袋', romaji: 'Fukuro', english: 'Bag / Plastic bag', note: 'Shopping bag.' },
+              { id: 'fc22', japanese: '温め', romaji: 'Atatame', english: 'Heating / Warming', note: 'Microwaving bento.' },
+              { id: 'fc23', japanese: '現金', romaji: 'Genkin', english: 'Cash', note: 'Paper money and coins.' },
+              { id: 'fc24', japanese: 'カード', romaji: 'Kādo', english: 'Credit Card', note: 'Payment card.' },
+              { id: 'fc25', japanese: '靴', romaji: 'Kutsu', english: 'Shoes', note: 'Footwear.' },
+              { id: 'fc26', japanese: '大きい', romaji: 'Ōkii', english: 'Big', note: 'Large size.' },
+              { id: 'fc27', japanese: '小さい', romaji: 'Chiisai', english: 'Small', note: 'Small size.' },
+              { id: 'fc28', japanese: 'いくら', romaji: 'Ikura', english: 'How much', note: 'Price query.' },
+              { id: 'fc29', japanese: 'レシート', romaji: 'Reshīto', english: 'Receipt', note: 'Proof of payment.' },
+              { id: 'fc30', japanese: '弁当', romaji: 'Bentō', english: 'Bento box', note: 'Prepackaged meal.' }
+            ],
+            phrases: [
+              { category: 'Konbini Staff Question', japanese: '袋はいりますか？', romaji: 'Fukuro wa irimasu ka?', english: 'Do you need a plastic bag?', note: 'Cashier ask.' },
+              { category: 'Konbini Answer', japanese: '袋お願いします', romaji: 'Fukuro onegai shimasu', english: 'Yes, bag please', note: 'Requesting bag.' },
+              { category: 'Konbini Answer', japanese: '袋はいりません', romaji: 'Fukuro wa irimasen', english: 'No bag needed', note: 'Declining bag.' },
+              { category: 'Konbini Staff Question', japanese: '温めますか？', romaji: 'Atatame masu ka?', english: 'Warm up your bento?', note: 'Microwave ask.' },
+              { category: 'Konbini Answer', japanese: '温めてください', romaji: 'Atatame te kudasai', english: 'Please warm it up', note: 'Accepting microwave warming.' },
+              { category: 'Payment', japanese: 'カードで払いたいです', romaji: 'Kādo de haraitai desu', english: 'I want to pay by card', note: 'Credit card payment.' },
+              { category: 'Payment', japanese: '現金で払いたいです', romaji: 'Genkin de haraitai desu', english: 'I want to pay by cash', note: 'Cash payment.' },
+              { category: 'Shopping', japanese: 'これはいくらですか？', romaji: 'Kore wa ikura desu ka?', english: 'How much is this?', note: 'Asking item price.' },
+              { category: 'Shopping', japanese: 'これをください', romaji: 'Kore o kudasai', english: 'I want this', note: 'Buying item.' },
+              { category: 'Shoe Sizing', japanese: 'これは大きすぎるです', romaji: 'Kore wa ōkisugiru desu', english: 'This is too big', note: 'Shoe too large.' },
+              { category: 'Shoe Sizing', japanese: 'これは小さすぎるです', romaji: 'Kore wa chiisasugiru desu', english: 'This is too small', note: 'Shoe too tight.' }
+            ],
+            sentenceBuilder: [
+              {
+                id: 'sb9',
+                english: 'I want to pay by card.',
+                targetJP: 'カードで払いたいです',
+                chips: [
+                  { jp: 'カードで', romaji: 'Kādo de' },
+                  { jp: '払いたいです', romaji: 'haraitai desu' }
+                ]
+              },
+              {
+                id: 'sb10',
+                english: 'I want to pay by cash.',
+                targetJP: '現金で払いたいです',
+                chips: [
+                  { jp: '現金で', romaji: 'Genkin de' },
+                  { jp: '払いたいです', romaji: 'haraitai desu' }
+                ]
+              },
+              {
+                id: 'sb11',
+                english: 'Plastic bag please.',
+                targetJP: '袋お願いします',
+                chips: [
+                  { jp: '袋', romaji: 'Fukuro' },
+                  { jp: 'お願いします', romaji: 'onegai shimasu' }
+                ]
+              },
+              {
+                id: 'sb12',
+                english: 'Please warm it up.',
+                targetJP: '温めてください',
+                chips: [
+                  { jp: '温めて', romaji: 'Atatame te' },
+                  { jp: 'ください', romaji: 'kudasai' }
+                ]
+              }
+            ],
+            roleplay: {
+              title: 'Konbini Checkout Dialogue',
+              steps: [
+                {
+                  speaker: 'Konbini Cashier',
+                  staffJp: '袋はご利用ですか？',
+                  staffRomaji: 'Fukuro wa go-riyō desu ka?',
+                  staffEnglish: 'Would you like a plastic bag?',
+                  userJp: '袋お願いします。',
+                  userRomaji: 'Fukuro onegai shimasu.',
+                  userEnglish: 'Yes, plastic bag please.',
+                  options: [
+                    { jp: '袋お願いします。', romaji: 'Fukuro onegai shimasu.', english: 'Yes, bag please.' },
+                    { jp: '大丈夫です（いりません）。', romaji: 'Daijōbu desu.', english: 'I am fine (No bag).' }
+                  ]
+                },
+                {
+                  speaker: 'Konbini Cashier',
+                  staffJp: 'お弁当、温めますか？',
+                  staffRomaji: 'O-bentō, atatame masu ka?',
+                  staffEnglish: 'Should I warm up your bento box?',
+                  userJp: '温めてください。',
+                  userRomaji: 'Atatame te kudasai.',
+                  userEnglish: 'Please warm it up.',
+                  options: [
+                    { jp: '温めてください。', romaji: 'Atatame te kudasai.', english: 'Please warm it up.' },
+                    { jp: 'そのままで大丈夫です。', romaji: 'Sono mama de daijōbu desu.', english: 'It is fine as is.' }
+                  ]
+                }
+              ]
+            }
+          },
+
+          {
+            id: 'trains',
+            title: 'Trains & Directions',
+            japanese: '電車 & 道案内',
+            icon: '🚆',
+            flashcards: [
+              { id: 'fc31', japanese: '次', romaji: 'Tsugi', english: 'Next', note: 'Upcoming station or turn.' },
+              { id: 'fc32', japanese: '駅', romaji: 'Eki', english: 'Station', note: 'Train or subway station.' },
+              { id: 'fc33', japanese: '電車', romaji: 'Densha', english: 'Train', note: 'Local or express train.' },
+              { id: 'fc34', japanese: 'トイレ', romaji: 'Toire', english: 'Restroom / Toilet', note: 'Bathroom facility.' },
+              { id: 'fc35', japanese: 'どこ', romaji: 'Doko', english: 'Where', note: 'Location question word.' },
+              { id: 'fc36', japanese: '切符', romaji: 'Kippu', english: 'Ticket', note: 'Train ticket.' },
+              { id: 'fc37', japanese: '行き', romaji: 'Yuki', english: 'Bound for', note: 'Train destination label.' },
+              { id: 'fc38', japanese: '右', romaji: 'Migi', english: 'Right', note: 'Right direction.' },
+              { id: 'fc39', japanese: '左', romaji: 'Hidari', english: 'Left', note: 'Left direction.' },
+              { id: 'fc40', japanese: '出口', romaji: 'Deguchi', english: 'Exit', note: 'Station exit.' }
+            ],
+            phrases: [
+              { category: 'Trains', japanese: 'この電車はどこ行きですか？', romaji: 'Kono densha wa doko yuki desu ka?', english: 'Where does this train go?', note: 'Checking train destination.' },
+              { category: 'Trains', japanese: '次の駅', romaji: 'Tsugi no eki', english: 'Next station', note: 'Listening for train announcements.' },
+              { category: 'Directions', japanese: 'トイレはどこですか？', romaji: 'Toire wa doko desu ka?', english: 'Where is the restroom?', note: 'Finding restrooms quickly.' }
+            ],
+            sentenceBuilder: [
+              {
+                id: 'sb13',
+                english: 'Where is the restroom?',
+                targetJP: 'トイレはどこですか？',
+                chips: [
+                  { jp: 'トイレは', romaji: 'Toire wa' },
+                  { jp: 'どこですか？', romaji: 'doko desu ka?' }
+                ]
+              },
+              {
+                id: 'sb14',
+                english: 'Where does this train go?',
+                targetJP: 'この電車はどこ行きですか？',
+                chips: [
+                  { jp: 'この電車は', romaji: 'Kono densha wa' },
+                  { jp: 'どこ行き', romaji: 'doko yuki' },
+                  { jp: 'ですか？', romaji: 'desu ka?' }
+                ]
+              }
+            ],
+            roleplay: {
+              title: 'Train Station Assistance',
+              steps: [
+                {
+                  speaker: 'Station Staff',
+                  staffJp: '何かお困りですか？',
+                  staffRomaji: 'Nani ka o-komari desu ka?',
+                  staffEnglish: 'Do you need any help?',
+                  userJp: 'すみません、トイレはどこですか？',
+                  userRomaji: 'Sumimasen, toire wa doko desu ka?',
+                  userEnglish: 'Excuse me, where is the restroom?',
+                  options: [
+                    { jp: 'すみません、トイレはどこですか？', romaji: 'Sumimasen, toire wa doko desu ka?', english: 'Where is the restroom?' }
+                  ]
+                }
+              ]
+            }
+          },
+
+          {
+            id: 'numbers',
+            title: 'Numbers & Counters',
+            japanese: '数字 & 数え方',
+            icon: '🔢',
+            flashcards: [
+              { id: 'fc41', japanese: 'ひとつ', romaji: 'Hitotsu', english: '1 Object (Native)', note: 'Restaurant item count.' },
+              { id: 'fc42', japanese: 'ふたつ', romaji: 'Futatsu', english: '2 Objects (Native)', note: '2 items.' },
+              { id: 'fc43', japanese: 'ひとり', romaji: 'Hitori', english: '1 Person', note: 'Solo traveler.' },
+              { id: 'fc44', japanese: 'ふたり', romaji: 'Futari', english: '2 People', note: 'Duo travelers.' },
+              { id: 'fc45', japanese: '５人', romaji: 'Gonin', english: '5 People', note: 'Group of 5.' },
+              { id: 'fc46', japanese: '百', romaji: 'Hyaku', english: '100', note: 'Base hundreds unit.' },
+              { id: 'fc47', japanese: '円', romaji: 'En', english: 'Yen', note: 'Japanese Currency.' },
+              { id: 'fc48', japanese: '数', romaji: 'Kazu', english: 'Number', note: 'General quantity.' },
+              { id: 'fc49', japanese: '個', romaji: 'Ko', english: 'Small item counter', note: 'Small objects counter.' },
+              { id: 'fc50', japanese: '何個', romaji: 'Nan-ko', english: 'How many items', note: 'Asking item count.' }
+            ],
+            phrases: [
+              { category: 'Price Query', japanese: 'これはいくらですか？', romaji: 'Kore wa ikura desu ka?', english: 'How much is this?', note: 'Price tag check.' },
+              { category: 'Counting', japanese: 'ひとつください', romaji: 'Hitotsu kudasai', english: 'One item, please', note: 'Ordering 1 item.' },
+              { category: 'Counting', japanese: 'ふたつください', romaji: 'Futatsu kudasai', english: 'Two items, please', note: 'Ordering 2 items.' }
+            ],
+            sentenceBuilder: [
+              {
+                id: 'sb15',
+                english: 'How much is this?',
+                targetJP: 'これはいくらですか？',
+                chips: [
+                  { jp: 'これは', romaji: 'Kore wa' },
+                  { jp: 'いくらですか？', romaji: 'ikura desu ka?' }
+                ]
+              },
+              {
+                id: 'sb16',
+                english: 'One item please.',
+                targetJP: 'ひとつください',
+                chips: [
+                  { jp: 'ひとつ', romaji: 'Hitotsu' },
+                  { jp: 'ください', romaji: 'kudasai' }
+                ]
+              }
+            ],
+            roleplay: {
+              title: 'Asking Price at Market',
+              steps: [
+                {
+                  speaker: 'Shopkeeper',
+                  staffJp: 'いらっしゃいませ！どれにしますか？',
+                  staffRomaji: 'Irasshaimase! Dore ni shimasu ka?',
+                  staffEnglish: 'Welcome! Which one would you like?',
+                  userJp: 'すみません、これはいくらですか？',
+                  userRomaji: 'Sumimasen, kore wa ikura desu ka?',
+                  userEnglish: 'Excuse me, how much is this?',
+                  options: [
+                    { jp: 'すみません、これはいくらですか？', romaji: 'Sumimasen, kore wa ikura desu ka?', english: 'How much is this?' }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+
+        // COMPUTED PROPERTIES & METHODS
+        get currentTopic() {
+          return this.topics[this.currentTopicIndex];
+        },
+        get currentCard() {
+          return this.currentTopic.flashcards[this.flashcardIndex] || this.currentTopic.flashcards[0];
+        },
+        get currentPuzzle() {
+          return this.currentTopic.sentenceBuilder[this.builderIndex] || this.currentTopic.sentenceBuilder[0];
+        },
+        get currentRoleplay() {
+          return this.currentTopic.roleplay;
+        },
+
+        initApp() {
+          this.loadPuzzle();
+        },
+
+        selectTopic(idx) {
+          this.currentTopicIndex = idx;
+          this.flashcardIndex = 0;
+          this.isFlipped = false;
+          this.builderIndex = 0;
+          this.loadPuzzle();
+          this.resetRoleplay();
+          this.playSound('click');
+        },
+
+        selectSubTab(sub) {
+          this.currentSubTab = sub;
+          this.playSound('click');
+        },
+
+        // FLASHCARD METHODS
+        flipCard() {
+          this.isFlipped = !this.isFlipped;
+          this.playSound('flip');
+        },
+        nextCard() {
+          this.isFlipped = false;
+          setTimeout(() => {
+            this.flashcardIndex = (this.flashcardIndex + 1) % this.currentTopic.flashcards.length;
+          }, 150);
+          this.playSound('click');
+        },
+        prevCard() {
+          this.isFlipped = false;
+          setTimeout(() => {
+            this.flashcardIndex = (this.flashcardIndex - 1 + this.currentTopic.flashcards.length) % this.currentTopic.flashcards.length;
+          }, 150);
+          this.playSound('click');
+        },
+        isMastered(id) {
+          return this.masteredCards.includes(id);
+        },
+        toggleMastery(id) {
+          if (this.isMastered(id)) {
+            this.masteredCards = this.masteredCards.filter(item => item !== id);
+          } else {
+            this.masteredCards.push(id);
+            this.playSound('success');
+          }
+        },
+        getMasteredCount(topicId) {
+          const topic = this.topics.find(t => t.id === topicId);
+          if (!topic) return 0;
+          return topic.flashcards.filter(fc => this.masteredCards.includes(fc.id)).length;
+        },
+
+        // SENTENCE BUILDER METHODS
+        loadPuzzle() {
+          const puzzle = this.currentPuzzle;
+          if (!puzzle) return;
+          this.selectedChips = [];
+          // Shuffle chips
+          this.availableChips = [...puzzle.chips].sort(() => Math.random() - 0.5);
+          this.puzzleFeedback = '';
+          this.puzzleIsCorrect = false;
+        },
+        addChip(chip, idx) {
+          this.selectedChips.push(chip);
+          this.availableChips.splice(idx, 1);
+          this.playSound('click');
+        },
+        removeChip(idx) {
+          const chip = this.selectedChips[idx];
+          this.availableChips.push(chip);
+          this.selectedChips.splice(idx, 1);
+          this.playSound('click');
+        },
+        resetPuzzle() {
+          this.loadPuzzle();
+          this.playSound('click');
+        },
+        checkAnswer() {
+          const userConstructed = this.selectedChips.map(c => c.jp).join('');
+          const target = this.currentPuzzle.targetJP.replace(/\s/g, '');
+          
+          if (userConstructed === target) {
+            this.puzzleIsCorrect = true;
+            this.puzzleFeedback = '✨ Excellent! Correct sentence order!';
+            this.playSound('success');
+            this.speakJP(this.currentPuzzle.targetJP);
+
+            if (!this.completedPuzzles.includes(this.currentPuzzle.id)) {
+              this.completedPuzzles.push(this.currentPuzzle.id);
+            }
+          } else {
+            this.puzzleIsCorrect = false;
+            this.puzzleFeedback = '❌ Not quite right yet. Try rearranging the chips!';
+            this.playSound('wrong');
+          }
+        },
+        nextPuzzle() {
+          this.builderIndex = (this.builderIndex + 1) % this.currentTopic.sentenceBuilder.length;
+          this.loadPuzzle();
+          this.playSound('click');
+        },
+        getCompletedPuzzles(topicId) {
+          const topic = this.topics.find(t => t.id === topicId);
+          if (!topic) return 0;
+          return topic.sentenceBuilder.filter(p => this.completedPuzzles.includes(p.id)).length;
+        },
+
+        // ROLEPLAY METHODS
+        selectRoleplayOption(option) {
+          this.roleplayStepCompleted = true;
+          this.playSound('success');
+          this.speakJP(option.jp);
+        },
+        nextRoleplayStep() {
+          if (this.roleplayStepIndex < this.currentRoleplay.steps.length - 1) {
+            this.roleplayStepIndex++;
+            this.roleplayStepCompleted = false;
+            const nextStep = this.currentRoleplay.steps[this.roleplayStepIndex];
+            this.speakJP(nextStep.staffJp);
+          }
+        },
+        resetRoleplay() {
+          this.roleplayStepIndex = 0;
+          this.roleplayStepCompleted = false;
+          this.isAutoPlaying = false;
+          if (this.autoPlayTimer) clearInterval(this.autoPlayTimer);
+        },
+        toggleAutoPlayRoleplay() {
+          this.isAutoPlaying = !this.isAutoPlaying;
+          if (this.isAutoPlaying) {
+            this.roleplayStepIndex = 0;
+            this.roleplayStepCompleted = true;
+            const currentStep = this.currentRoleplay.steps[this.roleplayStepIndex];
+            this.speakJP(currentStep.staffJp);
+
+            this.autoPlayTimer = setInterval(() => {
+              if (this.roleplayStepIndex < this.currentRoleplay.steps.length - 1) {
+                this.roleplayStepIndex++;
+                const step = this.currentRoleplay.steps[this.roleplayStepIndex];
+                this.speakJP(step.staffJp);
+              } else {
+                this.isAutoPlaying = false;
+                clearInterval(this.autoPlayTimer);
+              }
+            }, 4500);
+          } else {
+            if (this.autoPlayTimer) clearInterval(this.autoPlayTimer);
+          }
+        },
+
+        // NUMBER CONVERTER SLIDER ALGORITHM (1-100)
+        getJapaneseNumber(num) {
+          const units = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+          const romajiUnits = ['', 'ichi', 'ni', 'san', 'yon', 'go', 'roku', 'nana', 'hachi', 'kyū'];
+
+          if (num === 100) return { kanji: '百 (Hyaku)', romaji: 'Hyaku' };
+
+          const tens = Math.floor(num / 10);
+          const ones = num % 10;
+
+          let kanjiStr = '';
+          let romajiStr = '';
+
+          if (tens === 1) {
+            kanjiStr = '十' + units[ones];
+            romajiStr = 'jū' + (ones > 0 ? '-' + romajiUnits[ones] : '');
+          } else if (tens > 1) {
+            kanjiStr = units[tens] + '十' + units[ones];
+            romajiStr = romajiUnits[tens] + '-jū' + (ones > 0 ? '-' + romajiUnits[ones] : '');
+          } else {
+            kanjiStr = units[ones];
+            romajiStr = romajiUnits[ones];
+          }
+
+          return { kanji: kanjiStr, romaji: romajiStr };
+        },
+
+        playSliderAudio() {
+          // Debounced live speech preview
+          if (this.sliderTimeout) clearTimeout(this.sliderTimeout);
+          this.sliderTimeout = setTimeout(() => {
+            const numData = this.getJapaneseNumber(parseInt(this.sliderValue));
+            this.speakJP(numData.kanji);
+          }, 300);
+        },
+
+        // OVERALL PROGRESS & SCORE
+        getOverallProgress() {
+          const totalCards = this.topics.reduce((acc, t) => acc + t.flashcards.length, 0);
+          const totalPuzzles = this.topics.reduce((acc, t) => acc + t.sentenceBuilder.length, 0);
+          const totalItems = totalCards + totalPuzzles;
+
+          const progressItems = this.masteredCards.length + this.completedPuzzles.length;
+          if (totalItems === 0) return 0;
+          return Math.min(100, Math.round((progressItems / totalItems) * 100));
+        },
+        getReadinessTitle() {
+          const p = this.getOverallProgress();
+          if (p < 20) return 'Beginner Explorer 🍡';
+          if (p < 50) return 'Konbini Ready 🍱';
+          if (p < 80) return 'Tokyo Navigator 🚆';
+          return 'Fluent Traveler 🏯';
+        },
+
+        openCheatSheet() {
+          this.showCheatSheet = true;
+          this.playSound('click');
+        },
+
+        // AUDIO & SYNTH VOICE UTILITIES
+        speakJP(text) {
+          if (!('speechSynthesis' in window)) return;
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'ja-JP';
+          utter.rate = 0.85;
+
+          const voices = window.speechSynthesis.getVoices();
+          const jpVoice = voices.find(v => v.lang.includes('ja') || v.lang.includes('JP'));
+          if (jpVoice) utter.voice = jpVoice;
+
+          window.speechSynthesis.speak(utter);
+        },
+
+        playSound(type) {
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            if (type === 'click') {
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(600, ctx.currentTime);
+              gain.gain.setValueAtTime(0.04, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+              osc.start();
+              osc.stop(ctx.currentTime + 0.08);
+            } else if (type === 'flip') {
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(350, ctx.currentTime);
+              osc.frequency.exponentialRampToValueAtTime(850, ctx.currentTime + 0.12);
+              gain.gain.setValueAtTime(0.06, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+              osc.start();
+              osc.stop(ctx.currentTime + 0.12);
+            } else if (type === 'success') {
+              const notes = [523.25, 659.25, 783.99, 1046.50];
+              notes.forEach((freq, idx) => {
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.connect(g);
+                g.connect(ctx.destination);
+                o.frequency.value = freq;
+                g.gain.setValueAtTime(0.05, ctx.currentTime + idx * 0.08);
+                g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.08 + 0.22);
+                o.start(ctx.currentTime + idx * 0.08);
+                o.stop(ctx.currentTime + idx * 0.08 + 0.22);
+              });
+            } else if (type === 'wrong') {
+              osc.type = 'sawtooth';
+              osc.frequency.setValueAtTime(220, ctx.currentTime);
+              osc.frequency.setValueAtTime(170, ctx.currentTime + 0.1);
+              gain.gain.setValueAtTime(0.06, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.22);
+              osc.start();
+              osc.stop(ctx.currentTime + 0.22);
+            }
+          } catch(e) {}
         }
-    </script>
+      }
+    }
+  </script>
 </body>
 </html>
